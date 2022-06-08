@@ -11,10 +11,15 @@ namespace CoolParking.BL.Services
     public class TimerService : ITimerService
     {
         private double _interval;
+        private Timer _timer;
 
         public event ElapsedEventHandler Elapsed;
 
-        public double Interval { get; set; }
+        public double Interval
+        {
+            get => _interval;
+            set => _interval = value * 1000;
+        }
 
         public void Start()
         {
