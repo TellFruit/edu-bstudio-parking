@@ -42,7 +42,7 @@ namespace CoolParking.BL.Services
 
         public int GetCapacity()
         {
-            throw new System.NotImplementedException();
+            return Settings.ParkingPlaces;
         }
 
         public int GetFreePlaces()
