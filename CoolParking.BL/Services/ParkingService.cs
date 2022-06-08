@@ -128,12 +128,14 @@ namespace CoolParking.BL.Services
 
         public TransactionInfo[] GetLastParkingTransactions()
         {
-            throw new System.NotImplementedException();
+            return _parking.RecentTransactions.ToArray();
         }
 
         public string ReadFromLog()
         {
             throw new System.NotImplementedException();
         }
+
+
     }
 }
