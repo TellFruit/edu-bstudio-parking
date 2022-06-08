@@ -7,6 +7,7 @@
 
 using System;
 using System.Collections.ObjectModel;
+using System.Linq;
 using CoolParking.BL.Interfaces;
 using CoolParking.BL.Models;
 
@@ -66,10 +67,10 @@ namespace CoolParking.BL.Services
                 }
                 else
                 {
-                    throw new InvalidOperationException("Sorry, no free places left");
+                    throw new InvalidOperationException("Sorry, no free places left.");
                 }
             }
-            catch (InvalidOperationException e)
+            catch (Exception e)
             {
                 Console.WriteLine(e.Message);
             }
@@ -77,7 +78,31 @@ namespace CoolParking.BL.Services
 
         public void RemoveVehicle(string vehicleId)
         {
-            throw new System.NotImplementedException();
+            try
+            {
+                Vehicle vehicle = _parking.Vehicles.FirstOrDefault(v => v.Id == vehicleId);
+
+                // if no cur found FirstOrDefault will return null
+                if (vehicle != null)
+                {
+                    if (vehicle.Balance > 0)
+                    {
+                        _parking.Vehicles.Remove(vehicle);
+                    }
+                    else
+                    {
+                        throw new InvalidOperationException("Please, pay your dept first.");
+                    }
+                }
+                else
+                {
+                    throw new NullReferenceException("Sorry, no such car is registered.");
+                }
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e.Message);
+            }
         }
 
         public void TopUpVehicle(string vehicleId, decimal sum)
