@@ -39,7 +39,7 @@ namespace CoolParking.BL.Services
 
         public void Stop()
         {
-            throw new System.NotImplementedException();
+            _timer.Stop();
         }
 
         public void Dispose()
