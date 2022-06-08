@@ -10,30 +10,27 @@ namespace CoolParking.BL.Services
 {
     public class TimerService : ITimerService
     {
-        // think that interval is described in milliseconds
-        private double _interval;
         private readonly Timer _timer;
 
-        public event ElapsedEventHandler Elapsed;
+        public event ElapsedEventHandler Elapsed { 
+            add => _timer.Elapsed += value;
+            remove => _timer.Elapsed -= value;
+        }
 
         public TimerService()
         {
             _timer = new Timer();
         }
 
+        // think that interval is described in milliseconds, but input is always in seconds (see Settings class)
         public double Interval
         {
-            get => _interval;
-            set => _interval = value * 1000;
+            get => _timer.Interval;
+            set => _timer.Interval = value * 1000;
         }
 
         public void Start()
         {
-            _timer.Interval = Interval;
-
-            if (Elapsed != null)
-                _timer.Elapsed += Elapsed;
-
             _timer.Start();
         }
 
