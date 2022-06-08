@@ -10,10 +10,16 @@ namespace CoolParking.BL.Services
 {
     public class TimerService : ITimerService
     {
+        // think that interval is described in milliseconds
         private double _interval;
-        private Timer _timer;
+        private readonly Timer _timer;
 
         public event ElapsedEventHandler Elapsed;
+
+        public TimerService()
+        {
+            _timer = new Timer();
+        }
 
         public double Interval
         {
@@ -23,7 +29,12 @@ namespace CoolParking.BL.Services
 
         public void Start()
         {
-            throw new System.NotImplementedException();
+            _timer.Interval = Interval;
+
+            if (Elapsed != null)
+                _timer.Elapsed += Elapsed;
+
+            _timer.Start();
         }
 
         public void Stop()
