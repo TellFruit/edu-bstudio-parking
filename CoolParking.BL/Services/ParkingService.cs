@@ -5,11 +5,13 @@
 //       Other implementation details are up to you, they just have to match the interface requirements
 //       and tests, for example, in ParkingServiceTests you can find the necessary constructor format and validation rules.
 
+using System.Collections.ObjectModel;
 using CoolParking.BL.Interfaces;
+using CoolParking.BL.Models;
 
 namespace CoolParking.BL.Services
 {
-    public class ParkingService
+    public class ParkingService : IParkingService
     {
         private readonly ITimerService _withdrawTimer;
         private readonly ITimerService _loggerTimer;
@@ -20,6 +22,56 @@ namespace CoolParking.BL.Services
             _withdrawTimer = transactionTimer;
             _loggerTimer = loggerTimer;
             _loggerService = loggeService;
+        }
+
+        public void Dispose()
+        {
+            throw new System.NotImplementedException();
+        }
+
+        public decimal GetBalance()
+        {
+            throw new System.NotImplementedException();
+        }
+
+        public int GetCapacity()
+        {
+            throw new System.NotImplementedException();
+        }
+
+        public int GetFreePlaces()
+        {
+            throw new System.NotImplementedException();
+        }
+
+        public ReadOnlyCollection<Vehicle> GetVehicles()
+        {
+            throw new System.NotImplementedException();
+        }
+
+        public void AddVehicle(Vehicle vehicle)
+        {
+            throw new System.NotImplementedException();
+        }
+
+        public void RemoveVehicle(string vehicleId)
+        {
+            throw new System.NotImplementedException();
+        }
+
+        public void TopUpVehicle(string vehicleId, decimal sum)
+        {
+            throw new System.NotImplementedException();
+        }
+
+        public TransactionInfo[] GetLastParkingTransactions()
+        {
+            throw new System.NotImplementedException();
+        }
+
+        public string ReadFromLog()
+        {
+            throw new System.NotImplementedException();
         }
     }
 }
