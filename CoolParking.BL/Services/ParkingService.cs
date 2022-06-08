@@ -107,7 +107,23 @@ namespace CoolParking.BL.Services
 
         public void TopUpVehicle(string vehicleId, decimal sum)
         {
-            throw new System.NotImplementedException();
+            try
+            {
+                Vehicle vehicle = _parking.Vehicles.FirstOrDefault(v => v.Id == vehicleId);
+
+                if (vehicle != null)
+                {
+                    vehicle.Balance += sum;
+                }
+                else
+                {
+                    throw new NullReferenceException("Sorry, no such car is registered.");
+                }
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e.Message);
+            }
         }
 
         public TransactionInfo[] GetLastParkingTransactions()
