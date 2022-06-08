@@ -5,6 +5,7 @@
 //       Other implementation details are up to you, they just have to match the interface requirements
 //       and tests, for example, in ParkingServiceTests you can find the necessary constructor format and validation rules.
 
+using System;
 using System.Collections.ObjectModel;
 using CoolParking.BL.Interfaces;
 using CoolParking.BL.Models;
@@ -52,12 +53,26 @@ namespace CoolParking.BL.Services
 
         public ReadOnlyCollection<Vehicle> GetVehicles()
         {
-            throw new System.NotImplementedException();
+            return _parking.Vehicles as ReadOnlyCollection<Vehicle>;
         }
 
         public void AddVehicle(Vehicle vehicle)
         {
-            throw new System.NotImplementedException();
+            try
+            {
+                if (GetFreePlaces() > 0)
+                {
+                    _parking.Vehicles.Add(vehicle);
+                }
+                else
+                {
+                    throw new InvalidOperationException("Sorry, no free places left");
+                }
+            }
+            catch (InvalidOperationException e)
+            {
+                Console.WriteLine(e.Message);
+            }
         }
 
         public void RemoveVehicle(string vehicleId)
