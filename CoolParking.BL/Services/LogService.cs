@@ -5,6 +5,7 @@
 
 using System;
 using System.IO;
+using System.Text;
 using CoolParking.BL.Interfaces;
 
 namespace CoolParking.BL.Services
@@ -27,7 +28,28 @@ namespace CoolParking.BL.Services
 
         public string Read()
         {
-            throw new NullReferenceException();
+            StringBuilder result = new StringBuilder();
+
+            try
+            {
+                if (File.Exists(LogPath))
+                {
+                    using (StreamReader reader = new StreamReader(LogPath))
+                    {
+                        result.AppendLine(reader.ReadToEnd());
+                    }
+                }
+                else
+                {
+                    throw new InvalidOperationException("Sorry, no log file found to read.");
+                }
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e.Message);
+            }
+
+            return result.ToString();
         }
     }
 }
