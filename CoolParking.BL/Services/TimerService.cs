@@ -44,7 +44,7 @@ namespace CoolParking.BL.Services
 
         public void Dispose()
         {
-            throw new System.NotImplementedException();
+            _timer.Dispose();
         }
     }
 }
