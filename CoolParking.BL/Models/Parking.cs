@@ -9,10 +9,12 @@ namespace CoolParking.BL.Models
     {
         public decimal Balance { get; internal set; }
         public IList<Vehicle> Vehicles { get; }
+        public IList<TransactionInfo> RecentTransactions { get; }
 
         public Parking()
         {
             Vehicles = new List<Vehicle>();
+            RecentTransactions = new List<TransactionInfo>();
         }
     }
 }
