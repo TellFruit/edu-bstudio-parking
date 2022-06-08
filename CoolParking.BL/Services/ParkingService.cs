@@ -19,13 +19,13 @@ namespace CoolParking.BL.Services
         private readonly ILogService _loggerService;
 
         // locally used variables
-        private Parking _parking;
+        private readonly Parking _parking;
 
-        public ParkingService(ITimerService transactionTimer, ITimerService loggerTimer, ILogService loggeService)
+        public ParkingService(ITimerService transactionTimer, ITimerService loggerTimer, ILogService loggerService)
         {
             _withdrawTimer = transactionTimer;
             _loggerTimer = loggerTimer;
-            _loggerService = loggeService;
+            _loggerService = loggerService;
             
             _parking = new Parking();
         }
@@ -37,7 +37,7 @@ namespace CoolParking.BL.Services
 
         public decimal GetBalance()
         {
-            throw new System.NotImplementedException();
+            return _parking.Balance;
         }
 
         public int GetCapacity()
