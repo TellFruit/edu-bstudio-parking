@@ -13,15 +13,21 @@ namespace CoolParking.BL.Services
 {
     public class ParkingService : IParkingService
     {
+        // additional services instances
         private readonly ITimerService _withdrawTimer;
         private readonly ITimerService _loggerTimer;
         private readonly ILogService _loggerService;
+
+        // locally used variables
+        private Parking _parking;
 
         public ParkingService(ITimerService transactionTimer, ITimerService loggerTimer, ILogService loggeService)
         {
             _withdrawTimer = transactionTimer;
             _loggerTimer = loggerTimer;
             _loggerService = loggeService;
+            
+            _parking = new Parking();
         }
 
         public void Dispose()
