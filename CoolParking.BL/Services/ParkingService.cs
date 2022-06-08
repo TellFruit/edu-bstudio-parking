@@ -47,7 +47,7 @@ namespace CoolParking.BL.Services
 
         public int GetFreePlaces()
         {
-            throw new System.NotImplementedException();
+            return Settings.ParkingPlaces - _parking.Vehicles.Count;
         }
 
         public ReadOnlyCollection<Vehicle> GetVehicles()
