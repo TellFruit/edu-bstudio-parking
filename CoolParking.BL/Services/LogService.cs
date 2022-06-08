@@ -4,6 +4,7 @@
 //       and tests, for example, in LogServiceTests you can find the necessary constructor format.
 
 using System;
+using System.IO;
 using CoolParking.BL.Interfaces;
 
 namespace CoolParking.BL.Services
@@ -18,7 +19,10 @@ namespace CoolParking.BL.Services
 
         public void Write(string logInfo)
         {
-            throw new NullReferenceException();
+            using (StreamWriter writer = new StreamWriter(LogPath, true))
+            {
+                writer.WriteLine(logInfo);
+            }
         }
 
         public string Read()
