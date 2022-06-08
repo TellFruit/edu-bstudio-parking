@@ -14,5 +14,11 @@ namespace CoolParking.BL.Models
         public VehicleType VehicleType { get; }
         public decimal Balance { get; internal set; }
 
+        public Vehicle(string id, VehicleType vehicleType, decimal balance)
+        {
+            Id = id;
+            VehicleType = vehicleType;
+            Balance = balance;
+        }
     }
 }
