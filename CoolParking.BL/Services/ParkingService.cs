@@ -4,3 +4,22 @@
 //       Other validation rules and constructor format went from tests.
 //       Other implementation details are up to you, they just have to match the interface requirements
 //       and tests, for example, in ParkingServiceTests you can find the necessary constructor format and validation rules.
+
+using CoolParking.BL.Interfaces;
+
+namespace CoolParking.BL.Services
+{
+    public class ParkingService
+    {
+        private readonly ITimerService _withdrawTimer;
+        private readonly ITimerService _loggerTimer;
+        private readonly ILogService _loggerService;
+
+        public ParkingService(ITimerService transactionTimer, ITimerService loggerTimer, ILogService loggeService)
+        {
+            _withdrawTimer = transactionTimer;
+            _loggerTimer = loggerTimer;
+            _loggerService = loggeService;
+        }
+    }
+}
