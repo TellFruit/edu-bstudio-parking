@@ -59,6 +59,11 @@ namespace CoolParking.BL.Services
             return _parking.Balance;
         }
 
+        public decimal GetRecentBalance()
+        {
+            return _parking.RecentIncome;
+        }
+
         public int GetCapacity()
         {
             return Settings.ParkingPlaces;
