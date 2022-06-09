@@ -15,7 +15,7 @@ namespace CoolParking.BL.Models
     {
         public string Id { get; }
         public VehicleType VehicleType { get; }
-        public decimal TariffModifier { get; }
+        public decimal TariffPrice { get; }
         public decimal Balance { get; internal set; }
 
         public Vehicle(string id, VehicleType vehicleType, decimal balance)
@@ -24,7 +24,7 @@ namespace CoolParking.BL.Models
             VehicleType = vehicleType;
             Balance = balance;
 
-            TariffModifier = AssignTariff(VehicleType);
+            TariffPrice = AssignTariff(VehicleType);
         }
 
         public static decimal AssignTariff(VehicleType vehicleType)
