@@ -185,6 +185,7 @@ namespace CoolParking.BL.Services
             }
 
             _parking.RecentTransactions.Clear();
+            _parking.RecentIncome = 0;
         }
         
         private static decimal AssessTransactionSum(Vehicle vehicle)
