@@ -142,7 +142,7 @@ namespace CoolParking.BL.Services
 
         public string ReadFromLog()
         {
-            throw new System.NotImplementedException();
+            return _loggerService.Read();
         }
 
         private void OnWithdrawMoment(object source, ElapsedEventArgs e)

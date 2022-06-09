@@ -1,6 +1,9 @@
 ﻿// TODO: implement class Settings.
 //       Implementation details are up to you, they just have to meet the requirements of the home task.
 
+using System.IO;
+using System.Reflection;
+
 namespace CoolParking.BL.Models
 {
     public static class Settings
@@ -21,5 +24,8 @@ namespace CoolParking.BL.Models
 
         // fee coefficient
         public static decimal FeeCoefficient = 2.5M;
+
+        // path to access or create log file
+        public static string LogPath = $@"{Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location)}\Transactions.log";
     }
 }
