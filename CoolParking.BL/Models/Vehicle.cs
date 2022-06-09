@@ -86,5 +86,13 @@ namespace CoolParking.BL.Models
             // if id survived all the checks, it was correct!
             return true;
         }
+
+        private static bool ValidateBalance(decimal balance)
+        {
+            if (balance < 0)
+                return false;
+
+            return true;
+        }
     }
 }
