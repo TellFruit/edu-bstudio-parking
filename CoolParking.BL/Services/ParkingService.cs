@@ -194,7 +194,7 @@ namespace CoolParking.BL.Services
         {
             Vehicle duplicate = parking.Vehicles.FirstOrDefault(v => v.Id == vehicle.Id);
 
-            if (duplicate == null)
+            if (duplicate != null)
                 return true;
 
             return false;
@@ -202,6 +202,9 @@ namespace CoolParking.BL.Services
 
         private static bool CheckVehicleForCtorFail(Vehicle vehicle)
         {
+            // the thing is vehicle validation is done inside Vehicle class
+            // so there we only need to check id for emptiness
+            // empty == fail 
             if (vehicle.Id == "")
                 return true;
 
