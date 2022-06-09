@@ -53,7 +53,7 @@ namespace CoolParking.BL.Models
         {
             try
             {
-                if (ValidateId(id))
+                if (CheckForIdFailure(id))
                     throw new ArgumentException("Sorry, incorrect id format.");
                 if (CommonValidation.CheckBalancePush(balance))
                     throw new ArgumentException("Sorry, incorrect balance value.");
@@ -68,13 +68,19 @@ namespace CoolParking.BL.Models
             }
         }
 
-        private static bool ValidateId(string id)
+        private static bool CheckForIdFailure(string id)
         {
             String[] parts = id.Split("-");
 
             // string with incorrect sections will give incorrect split result
             if (parts.Length != 3)
-                return false;
+                return true;
+
+            if (parts[0].Length != 2 || parts[2].Length != 2)
+                return true;
+
+            if (parts[2].Length != 5)
+                return true;
 
             // examine all the parts of id
             for (int i = 0; i < parts.Length; i++)
@@ -92,10 +98,10 @@ namespace CoolParking.BL.Models
                             if (IsUpper(chars[i]))
                                 continue;
 
-                            return false;
+                            return true;
                         }
                         
-                        return false;
+                        return true;
                     }
 
                     // this section is reached only when i = 1 due to restrictions
@@ -103,12 +109,12 @@ namespace CoolParking.BL.Models
                         continue;
 
                     // again, if all is false - the id is invalid
-                    return false;
+                    return true;
                 }
             }
 
             // if id survived all the checks, it was correct!
-            return true;
+            return false;
         }
     }
 }
