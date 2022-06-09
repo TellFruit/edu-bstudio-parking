@@ -115,7 +115,7 @@ namespace CoolParking.BL.Services
                 }
                 else
                 {
-                    throw new NullReferenceException("Sorry, no such car is registered.");
+                    throw new ArgumentException("Sorry, no such car is registered.");
                 }
         }
 
@@ -142,7 +142,7 @@ namespace CoolParking.BL.Services
                 }
                 else
                 {
-                    throw new NullReferenceException("Sorry, no such car is registered.");
+                    throw new ArgumentException("Sorry, no such car is registered.");
                 }
         }
 
