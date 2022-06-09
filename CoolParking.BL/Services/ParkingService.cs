@@ -76,7 +76,7 @@ namespace CoolParking.BL.Services
 
         public ReadOnlyCollection<Vehicle> GetVehicles()
         {
-            return _parking.Vehicles as ReadOnlyCollection<Vehicle>;
+            return new ReadOnlyCollection<Vehicle>(_parking.Vehicles);
         }
 
         public void AddVehicle(Vehicle vehicle)
