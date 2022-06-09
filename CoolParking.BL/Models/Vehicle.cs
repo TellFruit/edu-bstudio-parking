@@ -93,9 +93,9 @@ namespace CoolParking.BL.Models
                     // if we examine syllables parts of id
                     if (i == 0 || i == 2)
                     {
-                        if (IsLetter(chars[i]))
+                        if (IsLetter(chars[j]))
                         {
-                            if (IsUpper(chars[i]))
+                            if (IsUpper(chars[j]))
                                 continue;
 
                             return true;
@@ -105,7 +105,7 @@ namespace CoolParking.BL.Models
                     }
 
                     // this section is reached only when i = 1 due to restrictions
-                    if (IsDigit(chars[i]))
+                    if (IsDigit(chars[j]))
                         continue;
 
                     // again, if all is false - the id is invalid
