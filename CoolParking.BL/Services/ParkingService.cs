@@ -213,5 +213,13 @@ namespace CoolParking.BL.Services
 
             return false;
         }
+
+        private static bool CheckTopUpSumFailure(int sum)
+        {
+            if (sum <= 0)
+                return true;
+
+            return false;
+        }
     }
 }
