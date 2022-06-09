@@ -79,7 +79,7 @@ namespace CoolParking.BL.Models
             if (parts[0].Length != 2 || parts[2].Length != 2)
                 return true;
 
-            if (parts[2].Length != 5)
+            if (parts[2].Length != 4)
                 return true;
 
             // examine all the parts of id
