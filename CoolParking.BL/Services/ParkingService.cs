@@ -11,6 +11,7 @@ using System.Linq;
 using System.Timers;
 using CoolParking.BL.Interfaces;
 using CoolParking.BL.Models;
+using CoolParking.BL.Validation;
 
 namespace CoolParking.BL.Services
 {
@@ -77,14 +78,17 @@ namespace CoolParking.BL.Services
         {
             try
             {
+                // input validation
+                if (CheckVehicleForCtorFail(vehicle))
+                    throw new ArgumentException("Try put vehicle again or return later.");
+                if (CheckVehicleForDuplicate(vehicle, _parking))
+                    throw new ArgumentException("Vehicle with this Id is already parked");
+
+                // parking logic validation
                 if (GetFreePlaces() > 0)
-                {
                     _parking.Vehicles.Add(vehicle);
-                }
                 else
-                {
                     throw new InvalidOperationException("Sorry, no free places left.");
-                }
             }
             catch (Exception e)
             {
@@ -98,10 +102,10 @@ namespace CoolParking.BL.Services
             {
                 Vehicle vehicle = _parking.Vehicles.FirstOrDefault(v => v.Id == vehicleId);
 
-                // if no cur found FirstOrDefault will return null
+                // if no car found FirstOrDefault will return null
                 if (vehicle != null)
                 {
-                    if (vehicle.Balance > 0)
+                    if (vehicle.Balance >= 0)
                     {
                         _parking.Vehicles.Remove(vehicle);
                     }
@@ -125,6 +129,9 @@ namespace CoolParking.BL.Services
         {
             try
             {
+                if (CommonValidation.CheckBalancePush(sum))
+                    throw new ArgumentException("You cannot add negative or zero numbers to vehicle balance.");
+                    
                 Vehicle vehicle = _parking.Vehicles.FirstOrDefault(v => v.Id == vehicleId);
 
                 if (vehicle != null)
@@ -175,7 +182,7 @@ namespace CoolParking.BL.Services
             _parking.RecentTransactions.Clear();
         }
         
-        private decimal AssessTransactionSum(Vehicle vehicle)
+        private static decimal AssessTransactionSum(Vehicle vehicle)
         {
             decimal sum;
 
@@ -188,6 +195,27 @@ namespace CoolParking.BL.Services
                 sum = vehicle.TariffPrice * Settings.FeeCoefficient;
 
             return sum;
+        }
+
+        private static bool CheckVehicleForDuplicate(Vehicle vehicle, Parking parking)
+        {
+            Vehicle duplicate = parking.Vehicles.FirstOrDefault(v => v.Id == vehicle.Id);
+
+            if (duplicate != null)
+                return true;
+
+            return false;
+        }
+
+        private static bool CheckVehicleForCtorFail(Vehicle vehicle)
+        {
+            // the thing is vehicle validation is done inside Vehicle class
+            // so there we only need to check id for emptiness
+            // empty == fail 
+            if (vehicle.Id == "")
+                return true;
+
+            return false;
         }
     }
 }
