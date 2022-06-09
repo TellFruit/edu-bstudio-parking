@@ -44,6 +44,25 @@ namespace CoolParking.BL.Models
             return 0;
         }
 
+        private static bool CheckValidation(string id, decimal balance)
+        {
+            try
+            {
+                if (ValidateId(id))
+                    throw new ArgumentException("Sorry, incorrect id format.");
+                if (ValidateBalance(balance))
+                    throw new ArgumentException("Sorry, incorrect balance value.");
+
+                return true;
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e.Message);
+            }
+
+            return false;
+        }
+
         private static bool ValidateId(string id)
         {
             String[] parts = id.Split("-");
