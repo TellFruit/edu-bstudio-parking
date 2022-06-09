@@ -171,7 +171,10 @@ namespace CoolParking.BL.Services
                 decimal sum = AssessTransactionSum(vehicle);
 
                 vehicle.Balance -= sum;
-                _parking.Balance += sum;
+                if (vehicle.Balance >= 0)
+                {
+                    _parking.Balance += sum;
+                }
                 
                 _parking.RecentTransactions.Add(new TransactionInfo(vehicle.Id, DateTime.Now, sum));
             }
