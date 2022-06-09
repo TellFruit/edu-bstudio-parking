@@ -31,6 +31,14 @@ namespace CoolParking.BL.Services
             _loggerService = loggerService;
             
             _parking = new Parking();
+
+            _withdrawTimer.Interval = Settings.TransactionSecondsPeriod;
+            _withdrawTimer.Elapsed += OnWithdrawMoment;
+            _loggerTimer.Interval = Settings.LoggingSecondsPeriod;
+            _withdrawTimer.Elapsed += OnLogMoment;
+
+            _withdrawTimer.Start();
+            _loggerTimer.Start();
         }
 
         public void Dispose()
