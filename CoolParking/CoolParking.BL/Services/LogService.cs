@@ -29,9 +29,7 @@ namespace CoolParking.BL.Services
         public string Read()
         {
             StringBuilder result = new StringBuilder();
-
-            try
-            {
+            
                 if (File.Exists(LogPath))
                 {
                     using (StreamReader reader = new StreamReader(LogPath))
@@ -43,11 +41,6 @@ namespace CoolParking.BL.Services
                 {
                     throw new InvalidOperationException("Sorry, no log file found to read.");
                 }
-            }
-            catch (Exception e)
-            {
-                Console.WriteLine(e.Message);
-            }
 
             // for unknown reason ToString() adds two unnecessary characters, so i must remove them before tests hit
             return result.Remove(result.Length - 2, 2).ToString();

@@ -51,8 +51,6 @@ namespace CoolParking.BL.Models
 
         private static bool CheckValidation(string id, decimal balance)
         {
-            try
-            {
                 if (CheckForIdFailure(id))
                     throw new ArgumentException("Sorry, incorrect id format.");
                 if (CommonValidation.CheckBalancePush(balance))
@@ -60,12 +58,6 @@ namespace CoolParking.BL.Models
 
                 // if no error, validation is passed
                 return true;
-            }
-            catch (Exception e)
-            {
-                Console.WriteLine(e.Message);
-                return false;
-            }
         }
 
         private static bool CheckForIdFailure(string id)
