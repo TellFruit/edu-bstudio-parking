@@ -7,6 +7,7 @@
 //       Static method GenerateRandomRegistrationPlateNumber should return a randomly generated unique identifier.
 
 using System;
+using System.Text;
 using CoolParking.BL.Validation;
 using static System.Char;
 
@@ -34,7 +35,7 @@ namespace CoolParking.BL.Models
 
         public static decimal AssignTariff(VehicleType vehicleType)
         {
-            switch(vehicleType)
+            switch (vehicleType)
             {
                 case VehicleType.PassengerCar:
                     return Settings.PassengerCarTariff;
@@ -51,13 +52,13 @@ namespace CoolParking.BL.Models
 
         private static bool CheckValidation(string id, decimal balance)
         {
-                if (CheckForIdFailure(id))
-                    throw new ArgumentException("Sorry, incorrect id format.");
-                if (CommonValidation.CheckBalancePush(balance))
-                    throw new ArgumentException("Sorry, incorrect balance value.");
+            if (CheckForIdFailure(id))
+                throw new ArgumentException("Sorry, incorrect id format.");
+            if (CommonValidation.CheckBalancePush(balance))
+                throw new ArgumentException("Sorry, incorrect balance value.");
 
-                // if no error, validation is passed
-                return true;
+            // if no error, validation is passed
+            return true;
         }
 
         private static bool CheckForIdFailure(string id)
@@ -92,7 +93,7 @@ namespace CoolParking.BL.Models
 
                             return true;
                         }
-                        
+
                         return true;
                     }
 
@@ -107,6 +108,44 @@ namespace CoolParking.BL.Models
 
             // if id survived all the checks, it was correct!
             return false;
+        }
+
+        public static string GenerateRandomRegistrationPlateNumber()
+        {
+            StringBuilder id = new StringBuilder();
+
+            Random rnd = new Random();
+            // three because it consists of three parts
+            for (int i = 0; i < 3; i++)
+            {
+
+                if (i == 0 || i == 2)
+                {
+                    for (int j = 0; j < 2; j++)
+                    {
+                        int ascii_index = rnd.Next(65, 91); //ASCII character codes 65-90
+                        char myRandomUpperCase = Convert.ToChar(ascii_index);
+
+                        id.Append(myRandomUpperCase);
+                    }
+                }
+                else if (i == 1)
+                {
+                    for (int j = 0; j < 2; j++)
+                    {
+                        int myRandomDigit = rnd.Next(1, 10); 
+
+                        id.Append(myRandomDigit);
+                    }
+                }
+
+                if (i < 2)
+                {
+                    id.Append("-");
+                }
+            }
+
+            return id.ToString();
         }
     }
 }

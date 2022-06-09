@@ -152,6 +152,8 @@ namespace CoolParking.BL.Tests
             var lastParkingTransactions = _parkingService.GetLastParkingTransactions();
 
             Assert.Equal(17m, lastParkingTransactions.Sum(tr => tr.Sum));
+
+            _logTimer.FireElapsedEvent();
         }
 
         [Fact]
