@@ -168,7 +168,12 @@ namespace CoolParking.BL.Services
 
         private void OnLogMoment(object source, ElapsedEventArgs e)
         {
-            throw new NotImplementedException();
+            foreach (var transaction in GetLastParkingTransactions())
+            {
+                _loggerService.Write($"{transaction.VehicleId}: {transaction.OperationDate} {transaction.Sum}");
+            }
+
+            _parking.RecentTransactions.Clear();
         }
     }
 }
