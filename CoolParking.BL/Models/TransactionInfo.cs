@@ -9,9 +9,9 @@ namespace CoolParking.BL.Models
     public class TransactionInfo
     {
         public DateTime OperationDate { get; }
-        public int VehicleId { get; }
+        public string VehicleId { get; }
         public decimal Sum { get; }
-        public TransactionInfo(int vehicleId, DateTime operationDate, decimal sum)
+        public TransactionInfo(string vehicleId, DateTime operationDate, decimal sum)
         {
             VehicleId = vehicleId;
             OperationDate = operationDate;

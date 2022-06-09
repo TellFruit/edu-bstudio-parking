@@ -6,12 +6,16 @@
 //       The type of constructor is shown in the tests and the constructor should have a validation, which also is clear from the tests.
 //       Static method GenerateRandomRegistrationPlateNumber should return a randomly generated unique identifier.
 
+using System;
+using System.IO;
+
 namespace CoolParking.BL.Models
 {
     public class Vehicle
     {
         public string Id { get; }
         public VehicleType VehicleType { get; }
+        public decimal TariffPrice { get; }
         public decimal Balance { get; internal set; }
 
         public Vehicle(string id, VehicleType vehicleType, decimal balance)
@@ -19,6 +23,25 @@ namespace CoolParking.BL.Models
             Id = id;
             VehicleType = vehicleType;
             Balance = balance;
+
+            TariffPrice = AssignTariff(VehicleType);
+        }
+
+        public static decimal AssignTariff(VehicleType vehicleType)
+        {
+            switch(vehicleType)
+            {
+                case VehicleType.PassengerCar:
+                    return Settings.PassengerCarTariff;
+                case VehicleType.Truck:
+                    return Settings.TruckTariff;
+                case VehicleType.Bus:
+                    return Settings.BusTariff;
+                case VehicleType.Motorcycle:
+                    return Settings.MotorcycleTariff;
+            }
+
+            return 0;
         }
     }
 }
