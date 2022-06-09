@@ -175,7 +175,7 @@ namespace CoolParking.BL.Services
             _parking.RecentTransactions.Clear();
         }
         
-        private decimal AssessTransactionSum(Vehicle vehicle)
+        private static decimal AssessTransactionSum(Vehicle vehicle)
         {
             decimal sum;
 
@@ -188,6 +188,24 @@ namespace CoolParking.BL.Services
                 sum = vehicle.TariffPrice * Settings.FeeCoefficient;
 
             return sum;
+        }
+
+        private static bool CheckVehicleForDuplicate(Vehicle vehicle, Parking parking)
+        {
+            Vehicle duplicate = parking.Vehicles.FirstOrDefault(v => v.Id == vehicle.Id);
+
+            if (duplicate == null)
+                return true;
+
+            return false;
+        }
+
+        private static bool CheckVehicleForCtorFail(Vehicle vehicle)
+        {
+            if (vehicle.Id == "")
+                return true;
+
+            return false;
         }
     }
 }
