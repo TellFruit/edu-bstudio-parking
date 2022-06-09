@@ -7,6 +7,7 @@
 
 using System;
 using System.Collections.ObjectModel;
+using System.IO;
 using System.Linq;
 using System.Timers;
 using CoolParking.BL.Interfaces;
@@ -52,6 +53,8 @@ namespace CoolParking.BL.Services
 
             _parking.Transactions.Clear();
             _parking.Vehicles.Clear();
+
+            File.Delete(Settings.LogPath);
         }
 
         public decimal GetBalance()
