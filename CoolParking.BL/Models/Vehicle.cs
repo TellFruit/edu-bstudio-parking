@@ -112,7 +112,7 @@ namespace CoolParking.BL.Models
 
         private static bool ValidateBalance(decimal balance)
         {
-            if (balance < 0)
+            if (balance <= 0)
                 return false;
 
             return true;
