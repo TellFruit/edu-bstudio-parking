@@ -77,14 +77,17 @@ namespace CoolParking.BL.Services
         {
             try
             {
+                // input validation
+                if (CheckVehicleForCtorFail(vehicle))
+                    throw new ArgumentException("Try put vehicle again or return later.");
+                if (CheckVehicleForDuplicate(vehicle, _parking))
+                    throw new ArgumentException("Vehicle with this Id is already parked");
+
+                // parking logic validation
                 if (GetFreePlaces() > 0)
-                {
                     _parking.Vehicles.Add(vehicle);
-                }
                 else
-                {
                     throw new InvalidOperationException("Sorry, no free places left.");
-                }
             }
             catch (Exception e)
             {
