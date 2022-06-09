@@ -128,6 +128,9 @@ namespace CoolParking.BL.Services
         {
             try
             {
+                if (CheckTopUpSumFailure(sum))
+                    throw new ArgumentException("You cannot add negative or zero numbers to vehicle balance.");
+                    
                 Vehicle vehicle = _parking.Vehicles.FirstOrDefault(v => v.Id == vehicleId);
 
                 if (vehicle != null)
@@ -214,7 +217,7 @@ namespace CoolParking.BL.Services
             return false;
         }
 
-        private static bool CheckTopUpSumFailure(int sum)
+        private static bool CheckTopUpSumFailure(decimal sum)
         {
             if (sum <= 0)
                 return true;
