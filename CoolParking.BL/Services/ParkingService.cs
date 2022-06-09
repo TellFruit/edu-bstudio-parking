@@ -101,7 +101,7 @@ namespace CoolParking.BL.Services
                 // if no car found FirstOrDefault will return null
                 if (vehicle != null)
                 {
-                    if (vehicle.Balance > 0)
+                    if (vehicle.Balance >= 0)
                     {
                         _parking.Vehicles.Remove(vehicle);
                     }
