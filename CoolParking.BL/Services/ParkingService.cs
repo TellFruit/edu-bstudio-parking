@@ -156,23 +156,7 @@ namespace CoolParking.BL.Services
         {
             foreach (var vehicle in GetVehicles())
             {
-                decimal sum = 0;
-
-                if (vehicle.Balance > 0)
-                {
-                    if (vehicle.Balance >= vehicle.Balance - vehicle.TariffPrice)
-                    {
-                        sum = vehicle.TariffPrice;
-                    }
-                    else
-                    {
-                        sum = vehicle.Balance + (vehicle.TariffPrice - vehicle.Balance) * Settings.FeeCoefficient;
-                    }
-                }
-                else
-                {
-                    sum = vehicle.TariffPrice * Settings.FeeCoefficient;
-                }
+                decimal sum = AssessTransactionSum(vehicle);
 
                 vehicle.Balance -= sum;
                 _parking.Balance += sum;
@@ -189,6 +173,21 @@ namespace CoolParking.BL.Services
             }
 
             _parking.RecentTransactions.Clear();
+        }
+        
+        private decimal AssessTransactionSum(Vehicle vehicle)
+        {
+            decimal sum;
+
+            if (vehicle.Balance >= vehicle.Balance - vehicle.TariffPrice)
+                sum = vehicle.TariffPrice;
+            else
+                sum = vehicle.Balance + (vehicle.TariffPrice - vehicle.Balance) * Settings.FeeCoefficient;
+
+            if (vehicle.Balance < 0)
+                sum = vehicle.TariffPrice * Settings.FeeCoefficient;
+
+            return sum;
         }
     }
 }
