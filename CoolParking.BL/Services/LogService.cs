@@ -49,7 +49,8 @@ namespace CoolParking.BL.Services
                 Console.WriteLine(e.Message);
             }
 
-            return result.ToString();
+            // for unknown reason ToString() adds two unnecessary characters, so i must remove them before tests hit
+            return result.Remove(result.Length - 2, 2).ToString();
         }
     }
 }
