@@ -98,7 +98,7 @@ namespace CoolParking.BL.Services
             {
                 Vehicle vehicle = _parking.Vehicles.FirstOrDefault(v => v.Id == vehicleId);
 
-                // if no cur found FirstOrDefault will return null
+                // if no car found FirstOrDefault will return null
                 if (vehicle != null)
                 {
                     if (vehicle.Balance > 0)

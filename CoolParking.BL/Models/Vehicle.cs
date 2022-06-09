@@ -7,7 +7,7 @@
 //       Static method GenerateRandomRegistrationPlateNumber should return a randomly generated unique identifier.
 
 using System;
-using System.IO;
+using static System.Char;
 
 namespace CoolParking.BL.Models
 {
@@ -42,6 +42,49 @@ namespace CoolParking.BL.Models
             }
 
             return 0;
+        }
+
+        private static bool ValidateId(string id)
+        {
+            String[] parts = id.Split("-");
+
+            // string with incorrect sections will give incorrect split result
+            if (parts.Length != 3)
+                return false;
+
+            // examine all the parts of id
+            for (int i = 0; i < parts.Length; i++)
+            {
+                // validation is done char by char
+                char[] chars = parts[0].ToCharArray();
+
+                for (int j = 0; j < chars.Length; j++)
+                {
+                    // if we examine syllables parts of id
+                    if (i == 0 || i == 2)
+                    {
+                        if (IsLetter(chars[i]))
+                        {
+                            if (IsUpper(chars[i]))
+                                continue;
+
+                            return false;
+                        }
+                        
+                        return false;
+                    }
+
+                    // this section is reached only when i = 1 due to restrictions
+                    if (IsDigit(chars[i]))
+                        continue;
+
+                    // again, if all is false - the id is invalid
+                    return false;
+                }
+            }
+
+            // if id survived all the checks, it was correct!
+            return true;
         }
     }
 }
