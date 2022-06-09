@@ -84,8 +84,6 @@ namespace CoolParking.BL.Services
 
         public void AddVehicle(Vehicle vehicle)
         {
-            try
-            {
                 // input validation
                 if (CheckVehicleForCtorFail(vehicle))
                     throw new ArgumentException("Try put vehicle again or return later.");
@@ -97,17 +95,10 @@ namespace CoolParking.BL.Services
                     _parking.Vehicles.Add(vehicle);
                 else
                     throw new InvalidOperationException("Sorry, no free places left.");
-            }
-            catch (Exception e)
-            {
-                Console.WriteLine(e.Message);
-            }
         }
 
         public void RemoveVehicle(string vehicleId)
         {
-            try
-            {
                 Vehicle vehicle = _parking.Vehicles.FirstOrDefault(v => v.Id == vehicleId);
 
                 // if no car found FirstOrDefault will return null
@@ -126,17 +117,10 @@ namespace CoolParking.BL.Services
                 {
                     throw new NullReferenceException("Sorry, no such car is registered.");
                 }
-            }
-            catch (Exception e)
-            {
-                Console.WriteLine(e.Message);
-            }
         }
 
         public void TopUpVehicle(string vehicleId, decimal sum)
         {
-            try
-            {
                 if (CommonValidation.CheckBalancePush(sum))
                     throw new ArgumentException("You cannot add negative or zero numbers to vehicle balance.");
                     
@@ -160,11 +144,6 @@ namespace CoolParking.BL.Services
                 {
                     throw new NullReferenceException("Sorry, no such car is registered.");
                 }
-            }
-            catch (Exception e)
-            {
-                Console.WriteLine(e.Message);
-            }
         }
 
         public TransactionInfo[] GetLastParkingTransactions()
