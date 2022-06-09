@@ -86,7 +86,7 @@ namespace CoolParking.BL.Models
             for (int i = 0; i < parts.Length; i++)
             {
                 // validation is done char by char
-                char[] chars = parts[0].ToCharArray();
+                char[] chars = parts[i].ToCharArray();
 
                 for (int j = 0; j < chars.Length; j++)
                 {
