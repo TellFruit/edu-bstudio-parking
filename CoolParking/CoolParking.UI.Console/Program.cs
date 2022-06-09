@@ -8,8 +8,7 @@ namespace CoolParking.Ui.Console
     {
         public static void Main()
         {
-            System.Console.WriteLine(Vehicle.GenerateRandomRegistrationPlateNumber());
-            //new ConsoleControl().LaunchProgram();
+            new ConsoleControl().LaunchProgram();
         }
     }
 }
