@@ -43,7 +43,14 @@ namespace CoolParking.BL.Services
 
         public void Dispose()
         {
-            throw new System.NotImplementedException();
+            _withdrawTimer.Stop();
+            _loggerTimer.Stop();
+
+            _withdrawTimer.Dispose();
+            _loggerTimer.Dispose();
+
+            _parking.RecentTransactions.Clear();
+            _parking.Vehicles.Clear();
         }
 
         public decimal GetBalance()
