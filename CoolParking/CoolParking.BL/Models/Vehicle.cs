@@ -131,7 +131,7 @@ namespace CoolParking.BL.Models
                 }
                 else if (i == 1)
                 {
-                    for (int j = 0; j < 2; j++)
+                    for (int j = 0; j < 4; j++)
                     {
                         int myRandomDigit = rnd.Next(1, 10); 
 

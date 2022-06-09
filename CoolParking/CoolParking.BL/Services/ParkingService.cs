@@ -133,9 +133,15 @@ namespace CoolParking.BL.Services
                         decimal possibleBalance  = vehicle.Balance + sum;
 
                         if (possibleBalance >= 0)
+                        {
                             _parking.Balance += -vehicle.Balance;
+                            _parking.RecentIncome += vehicle.Balance;
+                        }
                         else if (possibleBalance < 0)
+                        {
                             _parking.Balance += sum;
+                            _parking.RecentIncome += sum;
+                        }
                     }
 
                     vehicle.Balance += sum;
@@ -148,7 +154,7 @@ namespace CoolParking.BL.Services
 
         public TransactionInfo[] GetLastParkingTransactions()
         {
-            return _parking.Transactions.ToArray();
+            return _parking.ResentTransactions.ToArray();
         }
 
         public string ReadFromLog()
@@ -166,9 +172,12 @@ namespace CoolParking.BL.Services
                 if (vehicle.Balance >= 0)
                 {
                     _parking.Balance += sum;
+                    _parking.RecentIncome += sum;
                 }
-                
-                _parking.Transactions.Add(new TransactionInfo(vehicle.Id, DateTime.Now, sum));
+
+                TransactionInfo transactionInfo = new TransactionInfo(vehicle.Id, DateTime.Now, sum);
+                _parking.Transactions.Add(transactionInfo);
+                _parking.ResentTransactions.Add(transactionInfo);
             }
         }
 
@@ -176,7 +185,7 @@ namespace CoolParking.BL.Services
         {
             foreach (var transaction in GetLastParkingTransactions())
             {
-                _loggerService.Write($"{transaction.VehicleId}: {transaction.OperationDate} {transaction.Sum}");
+                _loggerService.Write($"Time: {transaction.OperationDate.Hour}:{transaction.OperationDate.Minute}; Date: {transaction.OperationDate.Day}.{transaction.OperationDate.Month}.{transaction.OperationDate.Year} Vehicle Id = {transaction.VehicleId}; Sum = {transaction.Sum}");
             }
 
             _parking.ResentTransactions.Clear();
