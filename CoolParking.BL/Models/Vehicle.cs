@@ -20,11 +20,15 @@ namespace CoolParking.BL.Models
 
         public Vehicle(string id, VehicleType vehicleType, decimal balance)
         {
-            Id = id;
-            VehicleType = vehicleType;
-            Balance = balance;
+            if (CheckValidation(id, balance))
+            {
+                Id = id;
+                VehicleType = vehicleType;
+                Balance = balance;
 
-            TariffPrice = AssignTariff(VehicleType);
+
+                TariffPrice = AssignTariff(VehicleType);
+            }
         }
 
         public static decimal AssignTariff(VehicleType vehicleType)
@@ -53,14 +57,14 @@ namespace CoolParking.BL.Models
                 if (ValidateBalance(balance))
                     throw new ArgumentException("Sorry, incorrect balance value.");
 
+                // if no error, validation is passed
                 return true;
             }
             catch (Exception e)
             {
                 Console.WriteLine(e.Message);
+                return false;
             }
-
-            return false;
         }
 
         private static bool ValidateId(string id)
