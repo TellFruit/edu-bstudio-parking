@@ -2,6 +2,7 @@
 //       Implementation details are up to you, they just have to meet the requirements 
 //       of the home task and be consistent with other classes and tests.
 using System.Collections.Generic;
+using CoolParking.BL.Interfaces;
 
 namespace CoolParking.BL.Models
 {
