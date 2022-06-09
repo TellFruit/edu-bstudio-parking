@@ -7,6 +7,7 @@
 //       Static method GenerateRandomRegistrationPlateNumber should return a randomly generated unique identifier.
 
 using System;
+using CoolParking.BL.Validation;
 using static System.Char;
 
 namespace CoolParking.BL.Models
@@ -54,7 +55,7 @@ namespace CoolParking.BL.Models
             {
                 if (ValidateId(id))
                     throw new ArgumentException("Sorry, incorrect id format.");
-                if (ValidateBalance(balance))
+                if (CommonValidation.CheckBalancePush(balance))
                     throw new ArgumentException("Sorry, incorrect balance value.");
 
                 // if no error, validation is passed
@@ -107,14 +108,6 @@ namespace CoolParking.BL.Models
             }
 
             // if id survived all the checks, it was correct!
-            return true;
-        }
-
-        private static bool ValidateBalance(decimal balance)
-        {
-            if (balance <= 0)
-                return false;
-
             return true;
         }
     }

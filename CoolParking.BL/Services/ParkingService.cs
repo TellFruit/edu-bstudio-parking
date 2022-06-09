@@ -11,6 +11,7 @@ using System.Linq;
 using System.Timers;
 using CoolParking.BL.Interfaces;
 using CoolParking.BL.Models;
+using CoolParking.BL.Validation;
 
 namespace CoolParking.BL.Services
 {
@@ -128,7 +129,7 @@ namespace CoolParking.BL.Services
         {
             try
             {
-                if (CheckTopUpSumFailure(sum))
+                if (CommonValidation.CheckBalancePush(sum))
                     throw new ArgumentException("You cannot add negative or zero numbers to vehicle balance.");
                     
                 Vehicle vehicle = _parking.Vehicles.FirstOrDefault(v => v.Id == vehicleId);
@@ -212,14 +213,6 @@ namespace CoolParking.BL.Services
             // so there we only need to check id for emptiness
             // empty == fail 
             if (vehicle.Id == "")
-                return true;
-
-            return false;
-        }
-
-        private static bool CheckTopUpSumFailure(decimal sum)
-        {
-            if (sum <= 0)
                 return true;
 
             return false;
