@@ -7,6 +7,7 @@
 
 using System;
 using System.Collections.ObjectModel;
+using System.IO;
 using System.Linq;
 using System.Timers;
 using CoolParking.BL.Interfaces;
@@ -36,7 +37,7 @@ namespace CoolParking.BL.Services
             _withdrawTimer.Interval = Settings.TransactionSecondsPeriod;
             _withdrawTimer.Elapsed += OnWithdrawMoment;
             _loggerTimer.Interval = Settings.LoggingSecondsPeriod;
-            _withdrawTimer.Elapsed += OnLogMoment;
+            _loggerTimer.Elapsed += OnLogMoment;
 
             _withdrawTimer.Start();
             _loggerTimer.Start();
@@ -50,13 +51,20 @@ namespace CoolParking.BL.Services
             _withdrawTimer.Dispose();
             _loggerTimer.Dispose();
 
-            _parking.RecentTransactions.Clear();
+            _parking.Transactions.Clear();
             _parking.Vehicles.Clear();
+
+            File.Delete(Settings.LogPath);
         }
 
         public decimal GetBalance()
         {
             return _parking.Balance;
+        }
+
+        public decimal GetRecentBalance()
+        {
+            return _parking.RecentIncome;
         }
 
         public int GetCapacity()
@@ -71,7 +79,7 @@ namespace CoolParking.BL.Services
 
         public ReadOnlyCollection<Vehicle> GetVehicles()
         {
-            return _parking.Vehicles as ReadOnlyCollection<Vehicle>;
+            return new ReadOnlyCollection<Vehicle>(_parking.Vehicles);
         }
 
         public void AddVehicle(Vehicle vehicle)
@@ -136,6 +144,16 @@ namespace CoolParking.BL.Services
 
                 if (vehicle != null)
                 {
+                    if (vehicle.Balance < 0)
+                    {
+                        decimal possibleBalance  = vehicle.Balance + sum;
+
+                        if (possibleBalance >= 0)
+                            _parking.Balance += -vehicle.Balance;
+                        else if (possibleBalance < 0)
+                            _parking.Balance += sum;
+                    }
+
                     vehicle.Balance += sum;
                 }
                 else
@@ -151,7 +169,7 @@ namespace CoolParking.BL.Services
 
         public TransactionInfo[] GetLastParkingTransactions()
         {
-            return _parking.RecentTransactions.ToArray();
+            return _parking.Transactions.ToArray();
         }
 
         public string ReadFromLog()
@@ -166,9 +184,12 @@ namespace CoolParking.BL.Services
                 decimal sum = AssessTransactionSum(vehicle);
 
                 vehicle.Balance -= sum;
-                _parking.Balance += sum;
+                if (vehicle.Balance >= 0)
+                {
+                    _parking.Balance += sum;
+                }
                 
-                _parking.RecentTransactions.Add(new TransactionInfo(vehicle.Id, DateTime.Now, sum));
+                _parking.Transactions.Add(new TransactionInfo(vehicle.Id, DateTime.Now, sum));
             }
         }
 
@@ -179,7 +200,8 @@ namespace CoolParking.BL.Services
                 _loggerService.Write($"{transaction.VehicleId}: {transaction.OperationDate} {transaction.Sum}");
             }
 
-            _parking.RecentTransactions.Clear();
+            _parking.ResentTransactions.Clear();
+            _parking.RecentIncome = 0;
         }
         
         private static decimal AssessTransactionSum(Vehicle vehicle)

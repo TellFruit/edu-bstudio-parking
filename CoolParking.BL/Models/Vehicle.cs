@@ -79,23 +79,23 @@ namespace CoolParking.BL.Models
             if (parts[0].Length != 2 || parts[2].Length != 2)
                 return true;
 
-            if (parts[2].Length != 5)
+            if (parts[1].Length != 4)
                 return true;
 
             // examine all the parts of id
             for (int i = 0; i < parts.Length; i++)
             {
                 // validation is done char by char
-                char[] chars = parts[0].ToCharArray();
+                char[] chars = parts[i].ToCharArray();
 
                 for (int j = 0; j < chars.Length; j++)
                 {
                     // if we examine syllables parts of id
                     if (i == 0 || i == 2)
                     {
-                        if (IsLetter(chars[i]))
+                        if (IsLetter(chars[j]))
                         {
-                            if (IsUpper(chars[i]))
+                            if (IsUpper(chars[j]))
                                 continue;
 
                             return true;
@@ -105,7 +105,7 @@ namespace CoolParking.BL.Models
                     }
 
                     // this section is reached only when i = 1 due to restrictions
-                    if (IsDigit(chars[i]))
+                    if (IsDigit(chars[j]))
                         continue;
 
                     // again, if all is false - the id is invalid
