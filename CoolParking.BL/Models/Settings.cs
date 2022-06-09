@@ -20,6 +20,6 @@ namespace CoolParking.BL.Models
         public static decimal MotorcycleTariff = 1M;
 
         // fee coefficient
-        public static double FeeCoefficient = 2.5;
+        public static decimal FeeCoefficient = 2.5M;
     }
 }
