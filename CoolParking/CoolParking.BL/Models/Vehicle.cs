@@ -114,14 +114,15 @@ namespace CoolParking.BL.Models
         {
             StringBuilder id = new StringBuilder();
 
+            Random rnd = new Random();
             // three because it consists of three parts
             for (int i = 0; i < 3; i++)
             {
+
                 if (i == 0 || i == 2)
                 {
                     for (int j = 0; j < 2; j++)
                     {
-                        Random rnd = new Random();
                         int ascii_index = rnd.Next(65, 91); //ASCII character codes 65-90
                         char myRandomUpperCase = Convert.ToChar(ascii_index);
 
@@ -132,7 +133,6 @@ namespace CoolParking.BL.Models
                 {
                     for (int j = 0; j < 2; j++)
                     {
-                        Random rnd = new Random();
                         int myRandomDigit = rnd.Next(1, 10); 
 
                         id.Append(myRandomDigit);
