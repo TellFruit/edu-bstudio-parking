@@ -1,4 +1,7 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using CoolParking.BL.Interfaces;
+using CoolParking.BL.Models;
+using CoolParking.BL.Services;
+using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json.Serialization;
 
 namespace CoolParking.WebAPI
@@ -16,6 +19,10 @@ namespace CoolParking.WebAPI
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
+
+            services.AddTransient<ILogService, LogService>(_ => new LogService(Settings.LogPath));
+            services.AddTransient<ITimerService, TimerService>();
+            services.AddTransient<IParkingService, ParkingService>();
 
             //Enable CORS
             services.AddCors(c =>
