@@ -21,5 +21,8 @@ namespace CoolParking.WebAPI.Controllers
         [HttpGet("capacity")]
         public IActionResult GetCapacity() => Ok(_parking.GetCapacity());
 
+        [HttpGet("freePlaces")]
+        public IActionResult GetFreePlaces () => Ok(_parking.GetFreePlaces());
+
     }
 }
