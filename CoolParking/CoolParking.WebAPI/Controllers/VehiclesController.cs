@@ -1,4 +1,5 @@
 ﻿using CoolParking.BL.Interfaces;
+using CoolParking.WebAPI.Models;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
