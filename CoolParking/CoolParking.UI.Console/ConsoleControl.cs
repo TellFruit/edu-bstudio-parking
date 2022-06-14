@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.Design;
 using System.Linq;
+using System.Net;
 using System.Text;
 using System.Threading.Tasks;
 using CoolParking.BL.Interfaces;
@@ -25,18 +27,10 @@ namespace CoolParking.UI.Console
     }
     internal class ConsoleControl
     {
-        private readonly ParkingService _parkingService;
-        private readonly ITimerService _withdrawTimer;
-        private readonly ITimerService _logTimer;
-        private readonly ILogService _logService;
-
-        public ConsoleControl()
+        private readonly ApiAccessConsole _apiAccess;
+        public ConsoleControl(ApiAccessConsole apiAccess)
         {
-            _withdrawTimer = new TimerService();
-            _logTimer = new TimerService();
-            _logService = new LogService(Settings.LogPath);
-
-            _parkingService = new ParkingService(_withdrawTimer, _logTimer, _logService);
+            _apiAccess = apiAccess;
         }
 
         public void LaunchProgram()
@@ -55,10 +49,10 @@ namespace CoolParking.UI.Console
                     switch (action)
                     {
                         case Actions.GetBalance:
-                            System.Console.WriteLine("Balance: " + _parkingService.GetBalance());
+                            System.Console.WriteLine("Balance: " + _apiAccess.GetBalance().Result);
                             break;
                         case Actions.GetRecentBalance:
-                            System.Console.WriteLine("Recent income: " + _parkingService.GetRecentBalance());
+                            //System.Console.WriteLine("Recent income: " + _parkingService.GetRecentBalance());
                             break;
                         case Actions.AddVehicle:
                         {
@@ -72,8 +66,11 @@ namespace CoolParking.UI.Console
                             System.Console.WriteLine("Enter vehicle initial balance (higher than 0): ");
                             decimal balance = Decimal.Parse(System.Console.ReadLine() ?? throw new InvalidOperationException("Non decimal input"));
 
-                            _parkingService.AddVehicle(new Vehicle(id, type, balance));
-                            System.Console.WriteLine("Vehicle added.");
+                            int statusCode = _apiAccess.CreateVehicle(new Vehicle(id, type, balance)).Result;
+                            if ( statusCode == (int) HttpStatusCode.Created)
+                                System.Console.WriteLine("Vehicle added.");
+                            else
+                                System.Console.WriteLine("Error: " + statusCode);
                         }
                             break;
                         case Actions.TopUpVehicle:
@@ -84,7 +81,7 @@ namespace CoolParking.UI.Console
                             System.Console.WriteLine("Enter vehicle initial balance (higher than 0): ");
                             decimal topup = Decimal.Parse(System.Console.ReadLine() ?? throw new InvalidOperationException("Non decimal input"));
 
-                            _parkingService.TopUpVehicle(id, topup);
+                            //_parkingService.TopUpVehicle(id, topup);
                         }
                             break;
                         case Actions.RemoveVehicle:
@@ -92,39 +89,39 @@ namespace CoolParking.UI.Console
                             System.Console.WriteLine("Enter vehicle id you want to delete: ");
                             string id = System.Console.ReadLine();
 
-                            _parkingService.RemoveVehicle(id);
+                           // _parkingService.RemoveVehicle(id);
 
                         }
                             break;
                         case Actions.GetFreePlaces:
                         {
-                            System.Console.WriteLine("Total free places: " + _parkingService.GetFreePlaces());
+                           // System.Console.WriteLine("Total free places: " + _parkingService.GetFreePlaces());
                         }
                             break;
                         case Actions.GetRecentTransactions:
                         {
-                            foreach (var lastParkingTransaction in _parkingService.GetLastParkingTransactions())
+                            /*foreach (var lastParkingTransaction in _parkingService.GetLastParkingTransactions())
                             {
                                 System.Console.WriteLine($"Time: {lastParkingTransaction.OperationDate.Hour}:{lastParkingTransaction.OperationDate.Minute}; Date: {lastParkingTransaction.OperationDate.Day}.{lastParkingTransaction.OperationDate.Month}.{lastParkingTransaction.OperationDate.Year} Vehicle Id = {lastParkingTransaction.VehicleId}; Sum = {lastParkingTransaction.Sum}");
-                            }
+                            }*/
                         }
                             break;
                         case Actions.GetVehiclesInParking:
                         {
-                            foreach (var vehicle in _parkingService.GetVehicles())
+                            /*foreach (var vehicle in _parkingService.GetVehicles())
                             {
                                 System.Console.WriteLine($"ID - {vehicle.Id}; Type - {vehicle.VehicleType}; Balance: {vehicle.Balance}");
-                            }
+                            }*/
                         }
                             break;
                         case Actions.ReadLog:
-                        {
+                        {/*
                             System.Console.WriteLine("All recorded transactions: ");
-                            System.Console.WriteLine(_parkingService.ReadFromLog());
+                            System.Console.WriteLine(_parkingService.ReadFromLog());*/
                         }
                             break;
                         case Actions.Exit:
-                            _parkingService.Dispose();
+                            //_parkingService.Dispose();
                             System.Environment.Exit(0);
                             break;
                     }
