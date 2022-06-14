@@ -33,6 +33,17 @@ namespace CoolParking.UI.Console
             return result.Result ?? -1;
         }
 
+        public async Task<decimal> GetRecentBalance()
+        {
+            var response = await _client.GetAsync(Settings.BaseApiAddress + "/parking" + "/recentBalance");
+            var balance = await response.Content.ReadAsStringAsync();
+            var reader = new JsonTextReader(new StringReader(balance));
+            reader.FloatParseHandling = FloatParseHandling.Decimal;
+            Task<decimal?> result = reader.ReadAsDecimalAsync();
+
+            return result.Result ?? -1;
+        }
+
         public async Task<int> GetCapacity()
         {
             var response = await _client.GetAsync(Settings.BaseApiAddress + "/parking" + "/capacity");

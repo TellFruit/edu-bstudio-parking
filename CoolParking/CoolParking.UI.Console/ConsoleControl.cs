@@ -21,6 +21,7 @@ namespace CoolParking.UI.Console
         TopUpVehicle,
         RemoveVehicle,
         GetFreePlaces,
+        GetCapacity,
         GetRecentTransactions,
         GetVehiclesInParking,
         GetVehicleById,
@@ -54,7 +55,7 @@ namespace CoolParking.UI.Console
                             System.Console.WriteLine("Balance: " + _apiAccess.GetBalance().Result);
                             break;
                         case Actions.GetRecentBalance:
-                            //System.Console.WriteLine("Recent income: " + _parkingService.GetRecentBalance());
+                            System.Console.WriteLine("Balance: " + _apiAccess.GetRecentBalance().Result);
                             break;
                         case Actions.AddVehicle:
                         {
@@ -106,7 +107,12 @@ namespace CoolParking.UI.Console
                             break;
                         case Actions.GetFreePlaces:
                         {
-                           // System.Console.WriteLine("Total free places: " + _parkingService.GetFreePlaces());
+                           System.Console.WriteLine("Total free places: " + _apiAccess.GetFreePlaces().Result);
+                        }
+                            break;
+                        case Actions.GetCapacity:
+                        {
+                            System.Console.WriteLine("Parking capacity: " + _apiAccess.GetCapacity().Result);
                         }
                             break;
                         case Actions.GetRecentTransactions:
@@ -158,9 +164,6 @@ namespace CoolParking.UI.Console
                                 result.Item1 != null
                                     ? result.Item1
                                     : $"Error: {result.Item2}");
-                            /*
-                            System.Console.WriteLine("All recorded transactions: ");
-                            System.Console.WriteLine(_parkingService.ReadFromLog());*/
                         }
                             break;
                         case Actions.Exit:
@@ -186,10 +189,11 @@ namespace CoolParking.UI.Console
             System.Console.WriteLine("TopUpVehicle - 4");
             System.Console.WriteLine("RemoveVehicle - 5");
             System.Console.WriteLine("GetFreePlaces - 6");
-            System.Console.WriteLine("GetRecentTransactions - 7");
-            System.Console.WriteLine("GetVehiclesInParking - 8");
-            System.Console.WriteLine("GetVehicleById - 9");
-            System.Console.WriteLine("ReadLog - 10");
+            System.Console.WriteLine("GetCapacity - 7");
+            System.Console.WriteLine("GetRecentTransactions - 8");
+            System.Console.WriteLine("GetVehiclesInParking - 9");
+            System.Console.WriteLine("GetVehicleById - 10");
+            System.Console.WriteLine("ReadLog - 11");
             System.Console.WriteLine();
             System.Console.WriteLine("Exit - 0");
             System.Console.WriteLine();
