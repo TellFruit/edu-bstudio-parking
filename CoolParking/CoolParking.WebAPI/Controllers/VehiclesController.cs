@@ -128,6 +128,8 @@ namespace CoolParking.WebAPI.Controllers
 
                 Vehicle vehicle = _parking.GetVehicles().First(x => x.Id == id);
 
+                _parking.RemoveVehicle(vehicle.Id);
+
                 return NoContent();
             }
             // this - for invalid id handling
