@@ -74,7 +74,7 @@ namespace CoolParking.WebAPI.Controllers
          */
 
         [HttpPut("topUpVehicle")]
-        public IActionResult TopUpVehicle(string id, decimal sum)
+        public IActionResult TopUpVehicle([FromBody]string id, [FromBody]decimal sum)
         {
             try
             {

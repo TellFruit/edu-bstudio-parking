@@ -66,9 +66,9 @@ namespace CoolParking.UI.Console
 
         public async Task<HttpStatusCode> TopUpVehicle(string id, decimal sum)
         {
-            var json = JsonConvert.SerializeObject(new { id = id, sum = sum });
+            var json = JsonConvert.SerializeObject(new {id, sum});
             var data = new StringContent(json, Encoding.UTF8, "application/json");
-            var response = await _client.PutAsync(Settings.BaseApiAddress + "/transactions" + "/topUpVehicle", data);
+            var response = await _client.PutAsync(Settings.BaseApiAddress + "/Transactions" + "/topUpVehicle", data);
 
             var result = response.StatusCode;
 

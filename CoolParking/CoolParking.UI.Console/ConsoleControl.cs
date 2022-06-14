@@ -75,13 +75,18 @@ namespace CoolParking.UI.Console
                             break;
                         case Actions.TopUpVehicle:
                         {
-                            System.Console.WriteLine("Enter vehicle id you want to delete: ");
+                            System.Console.WriteLine("Enter vehicle id of your machine: ");
                             string id = System.Console.ReadLine() ?? throw new InvalidOperationException("Invalid");
 
-                            System.Console.WriteLine("Enter vehicle initial balance (higher than 0): ");
+                            System.Console.WriteLine("Enter required money (higher than 0): ");
                             decimal topup = Decimal.Parse(System.Console.ReadLine() ?? throw new InvalidOperationException("Non decimal input"));
 
-                            //_parkingService.TopUpVehicle(id, topup);
+                            HttpStatusCode statusCode = _apiAccess.TopUpVehicle(id, topup).Result;
+
+                            if (statusCode == HttpStatusCode.Accepted)
+                                System.Console.WriteLine("Increased balance of that vehicle!");
+                            else
+                                System.Console.WriteLine("Error: " + statusCode);
                         }
                             break;
                         case Actions.RemoveVehicle:
