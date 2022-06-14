@@ -110,7 +110,6 @@ namespace CoolParking.UI.Console
         public async Task<HttpStatusCode> DeleteVehicle(string id)
         {
             var json = JsonConvert.SerializeObject(id);
-            var data = new StringContent(json, Encoding.UTF8, "application/json");
 
             var response = await _client.DeleteAsync(Routes.BaseApiAddress + Routes.Vehicles + $"/{id}");
 
