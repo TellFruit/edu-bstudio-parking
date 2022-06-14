@@ -15,11 +15,41 @@ namespace CoolParking.WebAPI.Controllers
             _parking = parking;
         }
 
+        /*
+         * GET api/parking/balance
+           
+           Response:
+           If request is handled successfully
+           Status Code: 200 OK
+           Body schema: decimal
+           Body example: 10.5
+         */
+
         [HttpGet("balance")]
         public IActionResult GetBalance() => Ok(_parking.GetBalance());
 
+        /*
+         * GET api/parking/capacity
+           
+           Response:
+           If request is handled successfully
+           Status Code: 200 OK
+           Body schema: int
+           Body example: 10
+         */
+
         [HttpGet("capacity")]
         public IActionResult GetCapacity() => Ok(_parking.GetCapacity());
+
+        /*
+         * GET api/parking/freePlaces
+           
+           Response:
+           If request is handled successfully
+           Status Code: 200 OK
+           Body schema: int
+           Body example: 9
+         */
 
         [HttpGet("freePlaces")]
         public IActionResult GetFreePlaces () => Ok(_parking.GetFreePlaces());

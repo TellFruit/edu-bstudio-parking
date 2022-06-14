@@ -74,18 +74,18 @@ namespace CoolParking.WebAPI.Controllers
          */
 
         [HttpPut("topUpVehicle")]
-        public IActionResult TopUpVehicle(string id, decimal sum)
+        public IActionResult TopUpVehicle(ApiTopUp topUp)
         {
             try
             {
-                if (Vehicle.CheckForIdFailure(id))
+                if (Vehicle.CheckForIdFailure(topUp.Id))
                     throw new ArgumentException("Sorry, incorrect id format.");
 
-                _parking.GetVehicles().First(x => x.Id == id);
+                Vehicle vehicle = _parking.GetVehicles().First(x => x.Id == topUp.Id);
                 
-                _parking.TopUpVehicle(id, sum);
+                _parking.TopUpVehicle(vehicle.Id, topUp.Sum);
 
-                return Ok(_parking.GetLastParkingTransactions().Last());
+                return Ok(vehicle);
             }
             // this - for invalid id handling
             catch (ArgumentException e)
