@@ -57,7 +57,7 @@ namespace CoolParking.WebAPI.Controllers
             // lead to the same status code response 
             catch (Exception e)
             {
-                return BadRequest(new {message = e.Message});
+                return BadRequest(new ApiError((int)HttpStatusCode.BadRequest, e.Message));
             }
         }
     }
