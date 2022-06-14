@@ -5,8 +5,8 @@ namespace CoolParking.WebAPI.Models
 {
     public class ApiVehicle
     {
-        public string Id { get; }
-        public VehicleType VehicleType { get; }
-        public decimal Balance { get; internal set; }
+        public string Id { get; set; }
+        public VehicleType VehicleType { get; set; }
+        public decimal Balance { get; set; }
     }
 }
