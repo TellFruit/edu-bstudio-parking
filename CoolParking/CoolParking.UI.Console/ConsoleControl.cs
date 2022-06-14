@@ -23,6 +23,7 @@ namespace CoolParking.UI.Console
         GetFreePlaces,
         GetRecentTransactions,
         GetVehiclesInParking,
+        GetVehicleById,
         ReadLog,
 
     }
@@ -126,6 +127,19 @@ namespace CoolParking.UI.Console
                                 System.Console.WriteLine("No vehicles in the parking");
                         }
                             break;
+                        case Actions.GetVehicleById:
+                        {
+                            System.Console.WriteLine("Enter vehicle id of your machine: ");
+                            string id = System.Console.ReadLine() ?? throw new InvalidOperationException("Invalid");
+                            
+                            var result = _apiAccess.GetVehicleById(id).Result;
+
+                            System.Console.WriteLine(
+                                result.Item1 != null
+                                    ? $"Found:\nID - {result.Item1.Id}; Type - {result.Item1.VehicleType}; Balance: {result.Item1.Balance}"
+                                    : $"Error: {result.Item2}");
+                        }
+                            break;
                         case Actions.ReadLog:
                         {/*
                             System.Console.WriteLine("All recorded transactions: ");
@@ -158,7 +172,8 @@ RemoveVehicle - 5
 GetFreePlaces - 6
 GetRecentTransactions - 7
 GetVehiclesInParking - 8
-ReadLog - 9
+GetVehicleById - 9
+ReadLog - 10
 
 Exit - 0
 

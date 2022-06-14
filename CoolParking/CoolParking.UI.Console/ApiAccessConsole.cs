@@ -70,6 +70,20 @@ namespace CoolParking.UI.Console
             return result;
         }
 
+        public async Task<Tuple<Vehicle?, HttpStatusCode>> GetVehicleById(string id)
+        {
+            var response = await _client.GetAsync(Settings.BaseApiAddress + "/Vehicles" + $"/{id}");
+
+            var vehicle = await response.Content.ReadAsStringAsync();
+
+            Vehicle? result = null;
+
+            if (response.StatusCode == HttpStatusCode.OK)
+                result = JsonConvert.DeserializeObject<Vehicle>(vehicle);
+
+            return new Tuple<Vehicle?, HttpStatusCode>(result, response.StatusCode);
+        }
+
         public async Task<HttpStatusCode> CreateVehicle(string id, VehicleType vehicleType, decimal balance)
         {
             var json = JsonConvert.SerializeObject(new {id, vehicleType, balance});
