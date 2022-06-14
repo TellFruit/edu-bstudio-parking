@@ -38,7 +38,7 @@ namespace CoolParking.WebAPI.Controllers
         {
             try
             {
-                if (ModelState.IsValid)
+                if (!string.IsNullOrEmpty(apiVehicle.Id))
                 {
                     Vehicle vehicle = new Vehicle(apiVehicle.Id, apiVehicle.VehicleType, apiVehicle.Balance);
                     
@@ -48,10 +48,9 @@ namespace CoolParking.WebAPI.Controllers
 
                     return Created(Url.Link("DefaultApi", new {id = vehicle.Id}) ?? string.Empty, json);
                 }
-                else
-                {
-                    throw new InvalidOperationException("Inconsistent json body. Required field: string Id, VehicleType VehicleType, decimal Balance");
-                }
+                
+                throw new InvalidOperationException("Inconsistent json body. Required field: string Id, VehicleType VehicleType, decimal Balance");
+                
             }
             // no exception specification because every of them described inside of the classes
             // lead to the same status code response 
