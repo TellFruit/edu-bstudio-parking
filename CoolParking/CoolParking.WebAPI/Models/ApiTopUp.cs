@@ -2,11 +2,11 @@
 {
     public class ApiTopUp
     {
-        public int Id { get; }
+        public string Id { get; }
         
-        public string Sum { get; }
+        public decimal Sum { get; }
 
-        public ApiTopUp(int id, string sum)
+        public ApiTopUp(string id, decimal sum)
         {
             Id = id;
             Sum = sum;
