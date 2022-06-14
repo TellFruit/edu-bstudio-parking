@@ -152,8 +152,23 @@ namespace CoolParking.BL.Tests
             var lastParkingTransactions = _parkingService.GetLastParkingTransactions();
 
             Assert.Equal(17m, lastParkingTransactions.Sum(tr => tr.Sum));
+        }
 
-            _logTimer.FireElapsedEvent();
+        [Fact]
+        public void GetLastParkingTransactions_When3VehiclesAfter2WithdrawTimeouts_Then6Transactions()
+        {
+            var vehicle1 = new Vehicle("AA-0001-AA", VehicleType.Motorcycle, 100);
+            var vehicle2 = new Vehicle("AA-0002-AA", VehicleType.Motorcycle, 100);
+            var vehicle3 = new Vehicle("AA-0003-AA", VehicleType.Motorcycle, 100);
+            _parkingService.AddVehicle(vehicle1);
+            _parkingService.AddVehicle(vehicle2);
+            _parkingService.AddVehicle(vehicle3);
+            _withdrawTimer.FireElapsedEvent();
+            _withdrawTimer.FireElapsedEvent();
+
+            var lastParkingTransactions = _parkingService.GetLastParkingTransactions();
+
+            Assert.Equal(6m, lastParkingTransactions.Sum(tr => tr.Sum));
         }
 
         [Fact]

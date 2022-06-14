@@ -61,9 +61,13 @@ namespace CoolParking.BL.Models
             return true;
         }
 
-        private static bool CheckForIdFailure(string id)
+        public static bool CheckForIdFailure(string id)
         {
-            String[] parts = id.Split("-");
+            // the most basic assumption
+            if (string.IsNullOrEmpty(id))
+                return true;
+
+            string[] parts = id.Split("-");
 
             // string with incorrect sections will give incorrect split result
             if (parts.Length != 3)
