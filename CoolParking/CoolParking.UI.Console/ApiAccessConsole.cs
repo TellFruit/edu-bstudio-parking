@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Net;
 using System.Net.Http.Json;
@@ -18,6 +19,8 @@ namespace CoolParking.UI.Console
         {
             _client = client;
         }
+
+        #region ParkingControllerRequests
 
         public async Task<decimal> GetBalance()
         {
@@ -52,6 +55,21 @@ namespace CoolParking.UI.Console
             return result.Result ?? -1;
         }
 
+        #endregion
+
+        #region VehiclesControllerRequests
+
+        public async Task<ReadOnlyCollection<Vehicle>?> GetVehicles()
+        {
+            var response = await _client.GetAsync(Settings.BaseApiAddress + "/Vehicles");
+
+            var vehicles = await response.Content.ReadAsStringAsync();
+
+            var result = JsonConvert.DeserializeObject<ReadOnlyCollection<Vehicle>>(vehicles);
+
+            return result;
+        }
+
         public async Task<HttpStatusCode> CreateVehicle(string id, VehicleType vehicleType, decimal balance)
         {
             var json = JsonConvert.SerializeObject(new {id, vehicleType, balance});
@@ -64,6 +82,10 @@ namespace CoolParking.UI.Console
             return result;
         }
 
+        #endregion
+
+        #region TransactionsControllerRequests
+
         public async Task<HttpStatusCode> TopUpVehicle(string id, decimal sum)
         {
             var json = JsonConvert.SerializeObject(new {id, sum});
@@ -74,5 +96,7 @@ namespace CoolParking.UI.Console
 
             return result;
         }
+
+        #endregion
     }
 }

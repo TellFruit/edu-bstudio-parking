@@ -83,7 +83,7 @@ namespace CoolParking.UI.Console
 
                             HttpStatusCode statusCode = _apiAccess.TopUpVehicle(id, topup).Result;
 
-                            if (statusCode == HttpStatusCode.Accepted)
+                            if (statusCode == HttpStatusCode.OK)
                                 System.Console.WriteLine("Increased balance of that vehicle!");
                             else
                                 System.Console.WriteLine("Error: " + statusCode);
