@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.ComponentModel.Design;
 using System.Linq;
 using System.Net;
@@ -113,10 +114,16 @@ namespace CoolParking.UI.Console
                             break;
                         case Actions.GetVehiclesInParking:
                         {
-                            /*foreach (var vehicle in _parkingService.GetVehicles())
-                            {
-                                System.Console.WriteLine($"ID - {vehicle.Id}; Type - {vehicle.VehicleType}; Balance: {vehicle.Balance}");
-                            }*/
+                            ReadOnlyCollection<Vehicle>? vehicles = _apiAccess.GetVehicles().Result;
+
+                            if (vehicles != null)
+                                foreach (var vehicle in vehicles)
+                                {
+                                    System.Console.WriteLine(
+                                        $"ID - {vehicle.Id}; Type - {vehicle.VehicleType}; Balance: {vehicle.Balance}");
+                                }
+                            else
+                                System.Console.WriteLine("No vehicles in the parking");
                         }
                             break;
                         case Actions.ReadLog:
