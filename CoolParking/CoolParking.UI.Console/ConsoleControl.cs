@@ -124,6 +124,7 @@ namespace CoolParking.UI.Console
                         }
                             break;
                         case Actions.Exit:
+                            _parkingService.Dispose();
                             System.Environment.Exit(0);
                             break;
                     }
