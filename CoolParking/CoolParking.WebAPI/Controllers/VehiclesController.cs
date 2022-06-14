@@ -30,7 +30,43 @@ namespace CoolParking.WebAPI.Controllers
 
         [HttpGet]
         public IActionResult Get() => Ok(_parking.GetVehicles());
-        
+
+        /*
+         * GET api/vehicles/id (id - vehicle id of format “AA-0001-AA”)
+           
+           Response:
+           If id is invalid - Status Code: 400 Bad Request
+           If vehicle not found - Status Code: 404 Not Found
+           If request is handled successfully
+           Status Code: 200 OK
+           Body schema: { “id”: string, “vehicleType”: int, "balance": decimal }
+           Body example: { “id”: “GP-5263-GC”, “vehicleType”: 2, "balance": 196.5 }
+         */
+
+        [HttpGet("{id}")]
+        public IActionResult Get(string id)
+        {
+            try
+            {
+                if (Vehicle.CheckForIdFailure(id))
+                    throw new ArgumentException("Sorry, incorrect id format.");
+
+                Vehicle vehicle = _parking.GetVehicles().First(x => x.Id == id);
+
+                return Ok(vehicle);
+            }
+            // this - for invalid id handling
+            catch (ArgumentException e)
+            {
+                return BadRequest(new ApiError((int)HttpStatusCode.BadRequest, e.Message));
+            }
+            // that - for no vehicles found handling
+            catch (InvalidOperationException e)
+            {
+                return NotFound(new ApiError((int)HttpStatusCode.NotFound, e.Message));
+            }
+        }
+
         /*
          * POST api/vehicles
            
