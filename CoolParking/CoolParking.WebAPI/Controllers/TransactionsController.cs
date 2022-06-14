@@ -1,4 +1,6 @@
-﻿using CoolParking.BL.Interfaces;
+﻿using System.Net;
+using CoolParking.BL.Interfaces;
+using CoolParking.WebAPI.Models;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -27,5 +29,32 @@ namespace CoolParking.WebAPI.Controllers
 
         [HttpGet("last")]
         public IActionResult LastTransactions() => Ok(_parking.GetLastParkingTransactions());
+
+        /*
+         * GET api/transactions/all (тільки транзакції з лог файлу)
+           
+           Response:
+           If log file not found - Status Code: 404 Not Found
+           If request is handled successfully
+           Status Code: 200 OK
+           Body schema: string
+           Body example: “5/10/2020 11:21:20 AM: 3.50 money withdrawn from vehicle with Id='GP-5263-GC'.\n
+                        5/10/2020 11:21:25 AM: 3.50 money withdrawn from vehicle with Id='GP-5263-GC'.”
+         */
+
+        [HttpGet("all")]
+        public IActionResult GetLogTransactions()
+        {
+            try
+            {
+                string log = _parking.ReadFromLog();
+
+                return Ok(log);
+            }
+            catch (InvalidOperationException e)
+            {
+                return NotFound(new ApiError((int) HttpStatusCode.NotFound, e.Message));
+            }
+        }
     }
 }
