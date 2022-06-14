@@ -28,6 +28,9 @@ namespace CoolParking.WebAPI.Controllers
         [HttpGet("balance")]
         public IActionResult GetBalance() => Ok(_parking.GetBalance());
 
+        [HttpGet("recentBalance")]
+        public IActionResult GetRecentBalance() => Ok(_parking.GetRecentBalance());
+
         /*
          * GET api/parking/capacity
            

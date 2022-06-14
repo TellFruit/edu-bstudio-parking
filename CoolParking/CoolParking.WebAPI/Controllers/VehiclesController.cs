@@ -81,7 +81,7 @@ namespace CoolParking.WebAPI.Controllers
            Body example: { “id”: “LJ-4812-GL”, “vehicleType”: 2, "balance": 100 }
          */
 
-        [HttpPost("post")]
+        [HttpPost]
         public IActionResult Post(ApiVehicle apiVehicle)
         {
             try

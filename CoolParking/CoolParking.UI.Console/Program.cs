@@ -7,7 +7,7 @@ namespace CoolParking.Ui.Console
     {
         public static void Main()
         {
-            new ConsoleControl(new ApiAccessConsole(new HttpClient(), Settings.BaseApiAddress)).LaunchProgram();
+            new ConsoleControl(new ApiAccessConsole(new HttpClient(), Routes.BaseApiAddress)).LaunchProgram();
         }
     }
 }

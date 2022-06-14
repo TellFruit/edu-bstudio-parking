@@ -21,6 +21,7 @@ namespace CoolParking.UI.Console
         TopUpVehicle,
         RemoveVehicle,
         GetFreePlaces,
+        GetCapacity,
         GetRecentTransactions,
         GetVehiclesInParking,
         GetVehicleById,
@@ -54,7 +55,7 @@ namespace CoolParking.UI.Console
                             System.Console.WriteLine("Balance: " + _apiAccess.GetBalance().Result);
                             break;
                         case Actions.GetRecentBalance:
-                            //System.Console.WriteLine("Recent income: " + _parkingService.GetRecentBalance());
+                            System.Console.WriteLine("Balance: " + _apiAccess.GetRecentBalance().Result);
                             break;
                         case Actions.AddVehicle:
                         {
@@ -94,23 +95,38 @@ namespace CoolParking.UI.Console
                         case Actions.RemoveVehicle:
                         {
                             System.Console.WriteLine("Enter vehicle id you want to delete: ");
-                            string id = System.Console.ReadLine();
+                            string id = System.Console.ReadLine() ?? throw new InvalidOperationException("Invalid"); ;
 
-                           // _parkingService.RemoveVehicle(id);
-
+                            HttpStatusCode statusCode = _apiAccess.DeleteVehicle(id).Result;
+                            
+                            if (statusCode == HttpStatusCode.NoContent)
+                                System.Console.WriteLine("Vehicle removed.");
+                            else
+                                System.Console.WriteLine("Error: " + statusCode);
                         }
                             break;
                         case Actions.GetFreePlaces:
                         {
-                           // System.Console.WriteLine("Total free places: " + _parkingService.GetFreePlaces());
+                           System.Console.WriteLine("Total free places: " + _apiAccess.GetFreePlaces().Result);
+                        }
+                            break;
+                        case Actions.GetCapacity:
+                        {
+                            System.Console.WriteLine("Parking capacity: " + _apiAccess.GetCapacity().Result);
                         }
                             break;
                         case Actions.GetRecentTransactions:
                         {
-                            /*foreach (var lastParkingTransaction in _parkingService.GetLastParkingTransactions())
-                            {
-                                System.Console.WriteLine($"Time: {lastParkingTransaction.OperationDate.Hour}:{lastParkingTransaction.OperationDate.Minute}; Date: {lastParkingTransaction.OperationDate.Day}.{lastParkingTransaction.OperationDate.Month}.{lastParkingTransaction.OperationDate.Year} Vehicle Id = {lastParkingTransaction.VehicleId}; Sum = {lastParkingTransaction.Sum}");
-                            }*/
+                            ReadOnlyCollection<TransactionInfo>? transactionInfos = _apiAccess.GetLastTransactions().Result;
+
+                            if (transactionInfos != null)
+                                foreach (var transaction in transactionInfos)
+                                {
+                                    System.Console.WriteLine(
+                                        $"Time: {transaction.OperationDate.Hour}:{transaction.OperationDate.Minute}; Date: {transaction.OperationDate.Day}.{transaction.OperationDate.Month}.{transaction.OperationDate.Year} Vehicle Id = {transaction.VehicleId}; Sum = {transaction.Sum}");
+                                }
+                            else
+                                System.Console.WriteLine("No transactions found.");
                         }
                             break;
                         case Actions.GetVehiclesInParking:
@@ -141,13 +157,16 @@ namespace CoolParking.UI.Console
                         }
                             break;
                         case Actions.ReadLog:
-                        {/*
-                            System.Console.WriteLine("All recorded transactions: ");
-                            System.Console.WriteLine(_parkingService.ReadFromLog());*/
+                        {
+                            var result = _apiAccess.ReadFromLog().Result;
+
+                            System.Console.WriteLine(
+                                result.Item1 != null
+                                    ? result.Item1
+                                    : $"Error: {result.Item2}");
                         }
                             break;
                         case Actions.Exit:
-                            //_parkingService.Dispose();
                             System.Environment.Exit(0);
                             break;
                     }
@@ -162,22 +181,22 @@ namespace CoolParking.UI.Console
 
         private void ShowActionList()
         {
-            System.Console.Write(@"
-Action indexes:
-GetBalance - 1
-GetRecentBalance - 2
-AddVehicle - 3
-TopUpVehicle - 4
-RemoveVehicle - 5
-GetFreePlaces - 6
-GetRecentTransactions - 7
-GetVehiclesInParking - 8
-GetVehicleById - 9
-ReadLog - 10
-
-Exit - 0
-
-");
+            System.Console.WriteLine();
+            System.Console.WriteLine("Action indexes:");
+            System.Console.WriteLine("GetBalance - 1");
+            System.Console.WriteLine("GetRecentBalance - 2");
+            System.Console.WriteLine("AddVehicle - 3");
+            System.Console.WriteLine("TopUpVehicle - 4");
+            System.Console.WriteLine("RemoveVehicle - 5");
+            System.Console.WriteLine("GetFreePlaces - 6");
+            System.Console.WriteLine("GetCapacity - 7");
+            System.Console.WriteLine("GetRecentTransactions - 8");
+            System.Console.WriteLine("GetVehiclesInParking - 9");
+            System.Console.WriteLine("GetVehicleById - 10");
+            System.Console.WriteLine("ReadLog - 11");
+            System.Console.WriteLine();
+            System.Console.WriteLine("Exit - 0");
+            System.Console.WriteLine();
         }
     }
 }

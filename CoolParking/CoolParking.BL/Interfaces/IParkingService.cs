@@ -7,6 +7,7 @@ namespace CoolParking.BL.Interfaces
     public interface IParkingService : IDisposable
     {
         decimal GetBalance();
+        decimal GetRecentBalance();
         int GetCapacity();
         int GetFreePlaces();
         ReadOnlyCollection<Vehicle> GetVehicles();
