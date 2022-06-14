@@ -18,7 +18,19 @@ namespace CoolParking.WebAPI.Controllers
             _parking = parking;
         }
 
+        /*
+         * GET api/vehicles
+           
+           Response:
+           If request is handled successfully
+           Status Code: 200 OK
+           Body schema: [{ “id”: string, “vehicleType”: int, "balance": decimal }]
+           Body example: [{ “id”: “GP-5263-GC”, “vehicleType”: 2, "balance": 196.5 }]
+         */
 
+        [HttpGet]
+        public IActionResult Get() => Ok(_parking.GetVehicles());
+        
         /*
          * POST api/vehicles
            
@@ -81,7 +93,6 @@ namespace CoolParking.WebAPI.Controllers
                 Vehicle vehicle = _parking.GetVehicles().First(x => x.Id == id);
 
                 return NoContent();
-
             }
             // this - for invalid id handling
             catch (ArgumentException e)
