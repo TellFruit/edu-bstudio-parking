@@ -118,7 +118,7 @@ namespace CoolParking.UI.Console
                                 foreach (var transaction in transactionInfos)
                                 {
                                     System.Console.WriteLine(
-                                        $"VehicleID - {transaction.VehicleId}; OperationDate - {transaction.OperationDate}; Sum - {transaction.Sum}");
+                                        $"Time: {transaction.OperationDate.Hour}:{transaction.OperationDate.Minute}; Date: {transaction.OperationDate.Day}.{transaction.OperationDate.Month}.{transaction.OperationDate.Year} Vehicle Id = {transaction.VehicleId}; Sum = {transaction.Sum}");
                                 }
                             else
                                 System.Console.WriteLine("No transactions found.");
@@ -173,22 +173,19 @@ namespace CoolParking.UI.Console
 
         private void ShowActionList()
         {
-            System.Console.Write(@"
-Action indexes:
-GetBalance - 1
-GetRecentBalance - 2
-AddVehicle - 3
-TopUpVehicle - 4
-RemoveVehicle - 5
-GetFreePlaces - 6
-GetRecentTransactions - 7
-GetVehiclesInParking - 8
-GetVehicleById - 9
-ReadLog - 10
-
-Exit - 0
-
-");
+            System.Console.WriteLine("Action indexes:");
+            System.Console.WriteLine("GetBalance - 1");
+            System.Console.WriteLine("GetRecentBalance - 2");
+            System.Console.WriteLine("AddVehicle - 3");
+            System.Console.WriteLine("TopUpVehicle - 4");
+            System.Console.WriteLine("RemoveVehicle - 5");
+            System.Console.WriteLine("GetFreePlaces - 6");
+            System.Console.WriteLine("GetRecentTransactions - 7");
+            System.Console.WriteLine("GetVehiclesInParking - 8");
+            System.Console.WriteLine("GetVehicleById - 9");
+            System.Console.WriteLine("ReadLog - 10");
+            System.Console.WriteLine();
+            System.Console.WriteLine("Exit - 0");
         }
     }
 }
