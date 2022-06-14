@@ -102,7 +102,6 @@ namespace CoolParking.UI.Console
                                 System.Console.WriteLine("Vehicle removed.");
                             else
                                 System.Console.WriteLine("Error: " + statusCode);
-
                         }
                             break;
                         case Actions.GetFreePlaces:
@@ -152,13 +151,19 @@ namespace CoolParking.UI.Console
                         }
                             break;
                         case Actions.ReadLog:
-                        {/*
+                        {
+                            var result = _apiAccess.ReadFromLog().Result;
+
+                            System.Console.WriteLine(
+                                result.Item1 != null
+                                    ? result.Item1
+                                    : $"Error: {result.Item2}");
+                            /*
                             System.Console.WriteLine("All recorded transactions: ");
                             System.Console.WriteLine(_parkingService.ReadFromLog());*/
                         }
                             break;
                         case Actions.Exit:
-                            //_parkingService.Dispose();
                             System.Environment.Exit(0);
                             break;
                     }
@@ -173,6 +178,7 @@ namespace CoolParking.UI.Console
 
         private void ShowActionList()
         {
+            System.Console.WriteLine();
             System.Console.WriteLine("Action indexes:");
             System.Console.WriteLine("GetBalance - 1");
             System.Console.WriteLine("GetRecentBalance - 2");
@@ -186,6 +192,7 @@ namespace CoolParking.UI.Console
             System.Console.WriteLine("ReadLog - 10");
             System.Console.WriteLine();
             System.Console.WriteLine("Exit - 0");
+            System.Console.WriteLine();
         }
     }
 }

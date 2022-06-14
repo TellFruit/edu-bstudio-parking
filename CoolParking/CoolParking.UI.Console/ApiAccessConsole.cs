@@ -124,6 +124,18 @@ namespace CoolParking.UI.Console
             return result;
         }
 
+        public async Task<Tuple<string, HttpStatusCode>> ReadFromLog()
+        {
+            var response = await _client.GetAsync(Settings.BaseApiAddress + "/transactions" + "/all");
+
+            string transactions = "";
+
+            if (response.StatusCode == HttpStatusCode.OK)
+                transactions = await response.Content.ReadAsStringAsync();
+
+            return new Tuple<string, HttpStatusCode>(transactions, response.StatusCode);
+        }
+
         public async Task<HttpStatusCode> TopUpVehicle(string id, decimal sum)
         {
             var json = JsonConvert.SerializeObject(new {id, sum});
