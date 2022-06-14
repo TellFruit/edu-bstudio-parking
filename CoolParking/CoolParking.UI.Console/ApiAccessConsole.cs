@@ -27,5 +27,16 @@ namespace CoolParking.UI.Console
 
             return result.Result ?? -1;
         }
+
+        public async Task<int> GetCapacity()
+        {
+            var response = await _client.GetAsync("/parking" + "/capacity");
+            var balance = await response.Content.ReadAsStringAsync();
+            var reader = new JsonTextReader(new StringReader(balance));
+
+            Task<int?> result = reader.ReadAsInt32Async();
+
+            return result.Result ?? -1;
+        }
     }
 }
