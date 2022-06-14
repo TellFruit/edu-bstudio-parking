@@ -59,5 +59,40 @@ namespace CoolParking.WebAPI.Controllers
                 return BadRequest(new ApiError((int)HttpStatusCode.BadRequest, e.Message));
             }
         }
+
+        /*
+         * DELETE api/vehicles/id (id - vehicle id of format “AA-0001-AA”)
+           
+           Response:
+           If id is invalid - Status Code: 400 Bad Request
+           If vehicle not found - Status Code: 404 Not Found
+           If request is handled successfully
+           Status Code: 204 No Content
+         */
+
+        [HttpDelete("{id}")]
+        public IActionResult Delete(string id)
+        {
+            try
+            {
+                if (Vehicle.CheckForIdFailure(id))
+                    throw new ArgumentException("Sorry, incorrect id format.");
+
+                Vehicle vehicle = _parking.GetVehicles().First(x => x.Id == id);
+
+                return NoContent();
+
+            }
+            // this - for invalid id handling
+            catch (ArgumentException e)
+            {
+                return BadRequest(new ApiError((int) HttpStatusCode.BadRequest, e.Message));
+            }
+            // that - for no vehicles found handling
+            catch (InvalidOperationException e)
+            {
+                return NotFound(new ApiError((int)HttpStatusCode.NotFound, e.Message));
+            }
+        }
     }
 }
