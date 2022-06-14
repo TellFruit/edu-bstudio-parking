@@ -22,7 +22,7 @@ namespace CoolParking.BL.Models
 
         public Vehicle(string id, VehicleType vehicleType, decimal balance)
         {
-            if (CheckValidation(id, balance))
+            if (CheckValidation(id, balance, vehicleType))
             {
                 Id = id;
                 VehicleType = vehicleType;
@@ -50,15 +50,25 @@ namespace CoolParking.BL.Models
             return 0;
         }
 
-        private static bool CheckValidation(string id, decimal balance)
+        private static bool CheckValidation(string id, decimal balance, VehicleType type)
         {
             if (CheckForIdFailure(id))
                 throw new ArgumentException("Sorry, incorrect id format.");
             if (CommonValidation.CheckBalancePush(balance))
                 throw new ArgumentException("Sorry, incorrect balance value.");
+            if (CheckVehicleTypeFailure(type))
+                throw new ArgumentException("Sorry, incorrect vehicleType value.");
 
             // if no error, validation is passed
             return true;
+        }
+
+        public static bool CheckVehicleTypeFailure(VehicleType vehicleType)
+        {
+            if (vehicleType < VehicleType.PassengerCar || vehicleType > VehicleType.Motorcycle)
+                return true;
+
+            return false;
         }
 
         public static bool CheckForIdFailure(string id)
