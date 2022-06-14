@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using CoolParking.BL.Models;
 using Newtonsoft.Json;
 
 namespace CoolParking.UI.Console
@@ -37,6 +38,16 @@ namespace CoolParking.UI.Console
             Task<int?> result = reader.ReadAsInt32Async();
 
             return result.Result ?? -1;
+        }
+        public async Task<int> CreateVehicle(Vehicle vehicle)
+        {
+            var json = JsonConvert.SerializeObject(vehicle);
+            var data = new StringContent(json, Encoding.UTF8, "application/json");
+
+            var response = await _client.PostAsync("/vehicles", data);
+
+            var result = response.StatusCode;
+            return (int)result;
         }
     }
 }
