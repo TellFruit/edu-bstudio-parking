@@ -112,10 +112,16 @@ namespace CoolParking.UI.Console
                             break;
                         case Actions.GetRecentTransactions:
                         {
-                            /*foreach (var lastParkingTransaction in _parkingService.GetLastParkingTransactions())
-                            {
-                                System.Console.WriteLine($"Time: {lastParkingTransaction.OperationDate.Hour}:{lastParkingTransaction.OperationDate.Minute}; Date: {lastParkingTransaction.OperationDate.Day}.{lastParkingTransaction.OperationDate.Month}.{lastParkingTransaction.OperationDate.Year} Vehicle Id = {lastParkingTransaction.VehicleId}; Sum = {lastParkingTransaction.Sum}");
-                            }*/
+                            ReadOnlyCollection<TransactionInfo>? transactionInfos = _apiAccess.GetLastTransactions().Result;
+
+                            if (transactionInfos != null)
+                                foreach (var transaction in transactionInfos)
+                                {
+                                    System.Console.WriteLine(
+                                        $"VehicleID - {transaction.VehicleId}; OperationDate - {transaction.OperationDate}; Sum - {transaction.Sum}");
+                                }
+                            else
+                                System.Console.WriteLine("No vehicles in the parking");
                         }
                             break;
                         case Actions.GetVehiclesInParking:

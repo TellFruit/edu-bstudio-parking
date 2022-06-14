@@ -101,7 +101,8 @@ namespace CoolParking.UI.Console
             var json = JsonConvert.SerializeObject(id);
             var data = new StringContent(json, Encoding.UTF8, "application/json");
 
-            var response = await _client.DeleteAsync(Settings.BaseApiAddress + $"/Vehicles/{id}");
+            var response = await _client.DeleteAsync(Settings.BaseApiAddress + $"/Vehicles/" +
+                $"");
 
             var result = response.StatusCode;
 
@@ -111,6 +112,17 @@ namespace CoolParking.UI.Console
         #endregion
         
         #region TransactionsControllerRequests
+
+        public async Task<ReadOnlyCollection<TransactionInfo>?> GetLastTransactions()
+        {
+            var response = await _client.GetAsync(Settings.BaseApiAddress + "/transactions" + "/last");
+
+            var transactions = await response.Content.ReadAsStringAsync();
+
+            var result = JsonConvert.DeserializeObject<ReadOnlyCollection<TransactionInfo>>(transactions);
+
+            return result;
+        }
 
         public async Task<HttpStatusCode> TopUpVehicle(string id, decimal sum)
         {
