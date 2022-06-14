@@ -121,7 +121,7 @@ namespace CoolParking.UI.Console
                                         $"VehicleID - {transaction.VehicleId}; OperationDate - {transaction.OperationDate}; Sum - {transaction.Sum}");
                                 }
                             else
-                                System.Console.WriteLine("No vehicles in the parking");
+                                System.Console.WriteLine("No transactions found.");
                         }
                             break;
                         case Actions.GetVehiclesInParking:
