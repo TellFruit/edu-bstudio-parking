@@ -52,9 +52,9 @@ namespace CoolParking.UI.Console
             return result.Result ?? -1;
         }
 
-        public async Task<HttpStatusCode> CreateVehicle(Vehicle vehicle)
+        public async Task<HttpStatusCode> CreateVehicle(string id, VehicleType vehicleType, decimal balance)
         {
-            var json = JsonConvert.SerializeObject(vehicle);
+            var json = JsonConvert.SerializeObject(new {id, vehicleType, balance});
             var data = new StringContent(json, Encoding.UTF8, "application/json");
 
             var response = await _client.PostAsync(Settings.BaseApiAddress + "/Vehicles/post", data);
