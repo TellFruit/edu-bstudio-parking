@@ -89,7 +89,19 @@ namespace CoolParking.UI.Console
             var json = JsonConvert.SerializeObject(new {id, vehicleType, balance});
             var data = new StringContent(json, Encoding.UTF8, "application/json");
 
-            var response = await _client.PostAsync(Settings.BaseApiAddress + "/Vehicles/post", data);
+            var response = await _client.PostAsync(Settings.BaseApiAddress + "/Vehicles", data);
+
+            var result = response.StatusCode;
+
+            return result;
+        }
+
+        public async Task<HttpStatusCode> DeleteVehicle(string id)
+        {
+            var json = JsonConvert.SerializeObject(id);
+            var data = new StringContent(json, Encoding.UTF8, "application/json");
+
+            var response = await _client.DeleteAsync(Settings.BaseApiAddress + $"/Vehicles/{id}");
 
             var result = response.StatusCode;
 
@@ -97,7 +109,7 @@ namespace CoolParking.UI.Console
         }
 
         #endregion
-
+        
         #region TransactionsControllerRequests
 
         public async Task<HttpStatusCode> TopUpVehicle(string id, decimal sum)

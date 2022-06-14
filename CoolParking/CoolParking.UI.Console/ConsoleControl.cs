@@ -94,9 +94,14 @@ namespace CoolParking.UI.Console
                         case Actions.RemoveVehicle:
                         {
                             System.Console.WriteLine("Enter vehicle id you want to delete: ");
-                            string id = System.Console.ReadLine();
+                            string id = System.Console.ReadLine() ?? throw new InvalidOperationException("Invalid"); ;
 
-                           // _parkingService.RemoveVehicle(id);
+                            HttpStatusCode statusCode = _apiAccess.DeleteVehicle(id).Result;
+                            
+                            if (statusCode == HttpStatusCode.NoContent)
+                                System.Console.WriteLine("Vehicle removed.");
+                            else
+                                System.Console.WriteLine("Error: " + statusCode);
 
                         }
                             break;
