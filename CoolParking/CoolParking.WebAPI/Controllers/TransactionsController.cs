@@ -81,11 +81,11 @@ namespace CoolParking.WebAPI.Controllers
                 if (Vehicle.CheckForIdFailure(id))
                     throw new ArgumentException("Sorry, incorrect id format.");
 
-                _parking.GetVehicles().First(x => x.Id == id);
+                Vehicle vehicle = _parking.GetVehicles().First(x => x.Id == id);
                 
-                _parking.TopUpVehicle(id, sum);
+                _parking.TopUpVehicle(vehicle.Id, sum);
 
-                return Ok(_parking.GetLastParkingTransactions().Last());
+                return Ok(vehicle);
             }
             // this - for invalid id handling
             catch (ArgumentException e)
