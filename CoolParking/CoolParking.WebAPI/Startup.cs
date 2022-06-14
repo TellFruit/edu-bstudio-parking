@@ -20,9 +20,9 @@ namespace CoolParking.WebAPI
         {
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
 
-            services.AddTransient<ILogService, LogService>(_ => new LogService(Settings.LogPath));
-            services.AddTransient<ITimerService, TimerService>();
-            services.AddTransient<IParkingService, ParkingService>();
+            services.AddSingleton<ILogService, LogService>(_ => new LogService(Settings.LogPath));
+            services.AddSingleton<ITimerService, TimerService>();
+            services.AddSingleton<IParkingService, ParkingService>();
 
             //Enable CORS
             services.AddCors(c =>

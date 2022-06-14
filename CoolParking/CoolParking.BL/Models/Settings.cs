@@ -27,5 +27,6 @@ namespace CoolParking.BL.Models
 
         // path to access or create log file
         public static string LogPath = $@"{Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location)}\Transactions.log";
+        public static string BaseApiAddress = "https://localhost:7179/api";
     }
 }
