@@ -7,7 +7,7 @@ namespace CoolParking.Ui.Console
     {
         public static void Main()
         {
-            new ConsoleControl().LaunchProgram();
+            //new ConsoleControl().LaunchProgram();
         }
     }
 }
