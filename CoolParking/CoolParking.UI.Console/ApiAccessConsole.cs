@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
 using System.Net.Http.Json;
 using System.Text;
 using System.Threading.Tasks;
@@ -51,7 +52,7 @@ namespace CoolParking.UI.Console
             return result.Result ?? -1;
         }
 
-        public async Task<int> CreateVehicle(Vehicle vehicle)
+        public async Task<HttpStatusCode> CreateVehicle(Vehicle vehicle)
         {
             var json = JsonConvert.SerializeObject(vehicle);
             var data = new StringContent(json, Encoding.UTF8, "application/json");
@@ -60,7 +61,18 @@ namespace CoolParking.UI.Console
 
             var result = response.StatusCode;
 
-            return (int)result;
+            return result;
+        }
+
+        public async Task<HttpStatusCode> TopUpVehicle(string id, decimal sum)
+        {
+            var json = JsonConvert.SerializeObject(new { id = id, sum = sum });
+            var data = new StringContent(json, Encoding.UTF8, "application/json");
+            var response = await _client.PutAsync(Settings.BaseApiAddress + "/transactions" + "/topUpVehicle", data);
+
+            var result = response.StatusCode;
+
+            return result;
         }
     }
 }

@@ -66,8 +66,8 @@ namespace CoolParking.UI.Console
                             System.Console.WriteLine("Enter vehicle initial balance (higher than 0): ");
                             decimal balance = Decimal.Parse(System.Console.ReadLine() ?? throw new InvalidOperationException("Non decimal input"));
 
-                            int statusCode = _apiAccess.CreateVehicle(new Vehicle(id, type, balance)).Result;
-                            if ( statusCode == (int) HttpStatusCode.Created)
+                            HttpStatusCode statusCode = _apiAccess.CreateVehicle(new Vehicle(id, type, balance)).Result;
+                            if ( statusCode == HttpStatusCode.Created)
                                 System.Console.WriteLine("Vehicle added.");
                             else
                                 System.Console.WriteLine("Error: " + statusCode);
