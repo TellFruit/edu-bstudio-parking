@@ -32,13 +32,25 @@ namespace CoolParking.UI.Console
         public async Task<int> GetCapacity()
         {
             var response = await _client.GetAsync(Settings.BaseApiAddress + "/parking" + "/capacity");
-            var balance = await response.Content.ReadAsStringAsync();
-            var reader = new JsonTextReader(new StringReader(balance));
+            var capacity = await response.Content.ReadAsStringAsync();
+            var reader = new JsonTextReader(new StringReader(capacity));
 
             Task<int?> result = reader.ReadAsInt32Async();
 
             return result.Result ?? -1;
         }
+
+        public async Task<int> GetFreePlaces()
+        {
+            var response = await _client.GetAsync(Settings.BaseApiAddress + "/parking" + "/freePlaces");
+            var freePlaces = await response.Content.ReadAsStringAsync();
+            var reader = new JsonTextReader(new StringReader(freePlaces));
+
+            Task<int?> result = reader.ReadAsInt32Async();
+
+            return result.Result ?? -1;
+        }
+
         public async Task<int> CreateVehicle(Vehicle vehicle)
         {
             var json = JsonConvert.SerializeObject(vehicle);
@@ -47,6 +59,7 @@ namespace CoolParking.UI.Console
             var response = await _client.PostAsync(Settings.BaseApiAddress + "/Vehicles/post", data);
 
             var result = response.StatusCode;
+
             return (int)result;
         }
     }
