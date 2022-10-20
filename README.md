@@ -1,6 +1,6 @@
 ## Welcome!
 
-This is a part of the task from BSA Academy.
+This is a part of the task from BS Academy.
 
 To run it .NET 6 is required.
 
