@@ -1,9 +1,12 @@
 ## Welcome!
 
-Here presented a template with tests for the second homework of BSA .NET thread.
+This is a part of the task from BSA Academy.
 
 To run it .NET 6 is required.
 
-Take this template to your repo and make something really great base on it!
+To run correctly choose UI Console and Web API as multiple start up projects.
 
-Have a nice coding :)
+The endpoints grant access to parking simulation logic.
+
+Vehicle ID example: AA-1111-AA
+(2 uppercase letters + 4 digits + 2 uppercase letters) 
